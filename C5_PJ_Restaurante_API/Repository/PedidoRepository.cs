@@ -19,11 +19,10 @@ namespace C5_PJ_Restaurante_API.Repository
             string response = "";
             using (SqlConnection cnx = new(connectionString))
             {
+                cnx.Open();
                 var transaction = cnx.BeginTransaction();
                 try
                 {
-                    cnx.Open();
-
                     // Insertar pedido
                     SqlCommand cmd = new("SP_INSERTPEDIDO", cnx, transaction)
                     { CommandType = CommandType.StoredProcedure };
@@ -40,14 +39,17 @@ namespace C5_PJ_Restaurante_API.Repository
                     {
                         pedido.id_pedido = dr2.GetInt32(0);
                     }
+                    dr2.Close();
 
                     // Insertar compra
-                    SqlCommand cmd3 = new("SP_INSERTCOMPRA", cnx, transaction)
-                    { CommandType = CommandType.StoredProcedure };
+                    string spInsertCompra = pedido.id_tarjeta == 0 ? "SP_INSERTCOMPRAMONEY" : "SP_INSERTCOMPRACARD";
+                    SqlCommand cmd3 = new(spInsertCompra, cnx, transaction);
+                    cmd3.CommandType = CommandType.StoredProcedure;
                     cmd3.Parameters.AddWithValue("@ID_PEDIDO", pedido.id_pedido);
                     cmd3.Parameters.AddWithValue("@ID_MEDIO_PAGO", pedido.id_medio_pago);
-                    cmd3.Parameters.AddWithValue("@ID_TARJETA", pedido.id_tarjeta);
                     cmd3.Parameters.AddWithValue("@MONTO_COMPRA", pedido.monto_compra);
+                    if(pedido.id_tarjeta != 0)
+                        cmd3.Parameters.AddWithValue("@ID_TARJETA", pedido.id_tarjeta);
                     cmd3.ExecuteNonQuery();
 
                     // Insertar detalles de los productos

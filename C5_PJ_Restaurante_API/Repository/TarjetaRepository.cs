@@ -19,7 +19,7 @@ namespace C5_PJ_Restaurante_API.Repository
             List<tb_tarjeta> lista = new();
             using (SqlConnection cn = new(connectionString))
             {
-                SqlCommand cmd = new("SP_GETDIRECCION", cn)
+                SqlCommand cmd = new("SP_GETTARJETA", cn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -82,7 +82,7 @@ namespace C5_PJ_Restaurante_API.Repository
             {
                 try
                 {
-                    SqlCommand cmd = new("SP_UPDATEDIRECCION", cn)
+                    SqlCommand cmd = new("SP_UPDATETARJETA", cn)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
