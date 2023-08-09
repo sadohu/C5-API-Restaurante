@@ -13,7 +13,7 @@ namespace C5_PJ_Restaurante_API.Controllers
 
         public PedidoController()
         {
-            this.iPedido = new PedidoRepository();
+            iPedido = new PedidoRepository();
         }
 
         [HttpPost("SavePedido")]
