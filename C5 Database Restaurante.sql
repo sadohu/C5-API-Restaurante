@@ -1,13 +1,13 @@
 USE MASTER
 go
 
-DROP DATABASE if exists  C5_BD_RESTAURANTE
+DROP DATABASE if exists  C5_DB_RESTAURANTE
 GO
 
-CREATE DATABASE C5_BD_RESTAURANTE
+CREATE DATABASE C5_DB_RESTAURANTE
 GO
 
-USE C5_BD_RESTAURANTE
+USE C5_DB_RESTAURANTE
 GO
 
 CREATE TABLE tb_tipo_usuario(
@@ -55,7 +55,7 @@ email_usuario varchar(100) NOT NULL,
 password_usuario varchar(100) NOT NULL,
 imagen_usuario varbinary(max),
 fechaReg_usuario datetime NOT NULL,
-fechaAct_usuario datetime ,
+fechaAct_usuario datetime NULL,
 estado_usuario varchar(100) NOT NULL,
 FOREIGN KEY (id_tipo_usuario) REFERENCES tb_tipo_usuario(id_tipo_usuario),
 FOREIGN KEY (id_distrito) REFERENCES tb_distrito(id_distrito)
@@ -70,7 +70,7 @@ ape_colaborador varchar(100) NOT NULL,
 dni_colaborador char(8) NOT NULL,
 imagen_colaborador varbinary(max),
 fechaReg_colaborador datetime NOT NULL,
-fechaAct_colaborador datetime NOT NULL,
+fechaAct_colaborador datetime NULL,
 estado_colaborador varchar(100) NOT NULL,
 FOREIGN KEY (id_tipo_colaborador) REFERENCES tb_tipo_colaborador (id_tipo_colaborador)
 )
@@ -97,10 +97,10 @@ CREATE TABLE tb_pedido(
 id_pedido int IDENTITY(1,1) PRIMARY KEY,
 id_usuario_cliente int NOT NULL,   
 id_direntrega int,        
-id_colaborador_repartidor int NOT NULL,
+id_colaborador_repartidor int NULL,
 tiempoentrega_pedido time NOT NULL,
 fechareg_pedido datetime NOT NULL,
-fechaact_pedido datetime NOT NULL,    
+fechaact_pedido datetime NULL,    
 estado_pedido varchar (100) NOT NULL,
 
 FOREIGN KEY (id_usuario_cliente) REFERENCES tb_usuario (id_usuario), 
@@ -116,7 +116,7 @@ nom_producto varchar(100) NOT NULL,
 des_producto varchar(500),
 preciouni_producto money NOT NULL,
 stock_producto int NOT NULL,
-imagen_producto varbinary(max),
+imagen_producto varbinary(max) NULL,
 estado_producto varchar(100) NOT NULL,
 
 FOREIGN KEY (id_categoria_producto) REFERENCES tb_categoria_producto (id_categoria_producto)
@@ -291,7 +291,15 @@ VALUES (1, 'Muy buena atención, el pollo a la brasa estaba delicioso.', 5, GETDA
 GO
 
 
-
+-- STORE PROCEDURES ============================================================================================================
+-- ================ PRODUCTO ========================
+CREATE OR ALTER PROC SP_LISTARPRODUCTO
+AS
+BEGIN 
+	SELECT * FROM tb_producto WHERE estado_producto = 'ACTIVO'
+END
+GO
+-- INSERT
 CREATE OR ALTER PROC SP_INSERTPRODUCTO
 @id_categoria_producto INT,
 @nom_producto VARCHAR(150),
@@ -304,8 +312,7 @@ BEGIN
 	VALUES (@id_categoria_producto, @nom_producto, @des_producto, @preciouni_producto, @stock_producto, NULL, 'Activo')
 END
 GO
--- EXEC SP_INSERTPRODUCTO 1,'COCA COLA','1.5LT','6.00','25'
-
+-- UPDATE
 CREATE OR ALTER PROC SP_UPDATEPRODUCTO
 @id_producto INT,
 @id_categoria_producto INT,
@@ -319,9 +326,7 @@ BEGIN
 	preciouni_producto = @preciouni_producto, stock_producto = @stock_producto WHERE id_producto = @id_producto
 END
 GO
-
--- EXEC SP_UPDATEPRODUCTO 6, 1,'INKA COLA','2.5LT','8.00','15'
-
+-- DELETE
 CREATE OR ALTER PROC SP_DELETEPRODUCTO
 @id_producto INT
 AS
@@ -329,16 +334,84 @@ BEGIN
 	UPDATE tb_producto SET estado_producto = 'Inactivo' WHERE id_producto = @id_producto
 END
 GO
--- EXEC SP_DELETEPRODUCTO 6
 
-CREATE OR ALTER PROC SP_LISTARPRODUCTO
+-- ================ DIRECCION ========================
+CREATE OR ALTER PROC SP_GETDIRECCION
+@ID_USUARIO INT
 AS
 BEGIN 
-	SELECT * FROM tb_producto WHERE estado_producto = 'ACTIVO'
+	SELECT * FROM tb_direntrega_usuario WHERE id_usuario = @ID_USUARIO AND estado_direntrega = 'Activo'
 END
+GO
+-- INSERT
+CREATE OR ALTER PROC SP_INSERTDIRECCION
+@ID_USUARIO INT, @ID_DISTRITO INT, @NOMBRE VARCHAR(100), @DESCRIPCION VARCHAR(100), @DETALLE VARCHAR(100)
+AS
+	INSERT INTO tb_direntrega_usuario (id_usuario, id_distrito, nombre_direntrega, des_direntrega, detalle_direntrega, fechareg_direntrega, estado_direntrega)
+	VALUES (@ID_USUARIO, @ID_DISTRITO, @NOMBRE, @DESCRIPCION, @DETALLE, GETDATE(), 'Activo')
+GO
+-- UPDATE
+CREATE OR ALTER PROC SP_UPDATEDIRECCION
+@ID_DIRECCION INT, @ID_DISTRITO INT, @NOMBRE VARCHAR(100), @DESCRIPCION VARCHAR(100), @DETALLE VARCHAR(100)
+AS
+	UPDATE tb_direntrega_usuario SET id_distrito = @ID_DISTRITO, nombre_direntrega = @NOMBRE,
+	des_direntrega = @DESCRIPCION, detalle_direntrega = @DETALLE
+	WHERE id_direntrega = @ID_DIRECCION
+GO
+-- DELETE
+CREATE OR ALTER PROC SP_DELETEDIRECCION
+@ID_DIRECCION INT
+AS
+	UPDATE tb_direntrega_usuario SET estado_direntrega = 'Innactivo'
+	WHERE id_direntrega = @ID_DIRECCION
+GO
+
+-- ================ DIRECCION ========================
+CREATE OR ALTER PROC SP_GETTARJETA
+@ID_USUARIO INT
+AS
+BEGIN 
+	SELECT * FROM tb_tarjeta WHERE id_usuario = @ID_USUARIO AND estado_tarjeta = 'Activo'
+END
+GO
+-- INSERT
+CREATE OR ALTER PROC SP_INSERTTARJETA
+@ID_USUARIO INT, @NUMERO VARCHAR(16), @CVV VARCHAR(3), @FECHA VARCHAR(100), @NOMBRE VARCHAR(100)
+AS
+	INSERT INTO tb_tarjeta (id_usuario, numero_tarjeta, cvv_tarjeta, fecha_tarjeta,
+	nombre_tarjeta, fechareg_tarjeta, estado_tarjeta)
+	VALUES (@ID_USUARIO, @NUMERO, @CVV, @FECHA, @NOMBRE, GETDATE(), 'Activo')
+GO
+-- UPDATE
+CREATE OR ALTER PROC SP_UPDATETARJETA
+@ID_TARJETA INT, @NUMERO VARCHAR(16), @CVV VARCHAR(3), @FECHA VARCHAR(100), @NOMBRE VARCHAR(100)
+AS
+	UPDATE tb_tarjeta SET numero_tarjeta = @NUMERO, cvv_tarjeta = @CVV,
+	fecha_tarjeta = @FECHA, nombre_tarjeta = @NOMBRE
+	WHERE id_tarjeta = @ID_TARJETA
+GO
+-- DELETE
+CREATE OR ALTER PROC SP_DELETETARJETA
+@ID_TARJETA INT
+AS
+	UPDATE tb_tarjeta SET estado_tarjeta = 'Innactivo'
+	WHERE id_tarjeta = @ID_TARJETA
 GO
 
 
+
+
+
+
+
+
+SELECT * FROM tb_tarjeta
+GO
+
+
+
+
+-- ================ usp_listadoEcommer ========================
 CREATE OR ALTER PROC usp_listadoEcommer
 AS
 Select p.id_producto,p.nom_producto,p.des_producto,cp.des_categoria_producto,
@@ -346,47 +419,48 @@ p.preciouni_producto,p.stock_producto
 from tb_producto p inner join tb_categoria_producto cp
 on p.id_categoria_producto=cp.id_categoria_producto
 GO
-
 -- EXEC usp_listadoEcommer
 
 
--- SELECT * FROM tb_producto 
-
-
-
-
-
-CREATE TABLE PEDIDO(
-ID_PEDIDO INT PRIMARY KEY IDENTITY,
-ID_USUARIO_CLIENTE INT NULL,
-ID_DIRENTREGA  INT NULL,
-ID_TARJETA  INT NULL,
-ID_MEDIO_PAGO  INT NULL,
-MONTO_COMPRA MONEY NULL
-)
-
-CREATE TABLE CART(
-ID_PRODUCTO INT NULL,
-CANTIDAD_PRODUCTO INT NULL
-)
-GO
-
+-- ================ T-SQL CREATE PEDIDO ========================
 CREATE OR ALTER PROC SP_INSERTPEDIDO
-@ID_USUARIO_CLIENTE INT, @ID_DIRENTREGA INT, @ID_TARJETA INT, @ID_MEDIO_PAGO INT, @MONTO_COMPRA MONEY
+@id_usuario_cliente INT, @id_direntrega INT
 AS
-INSERT PEDIDO (ID_USUARIO_CLIENTE, ID_DIRENTREGA, ID_TARJETA, ID_MEDIO_PAGO, MONTO_COMPRA)
-VALUES (@ID_USUARIO_CLIENTE, @ID_DIRENTREGA, @ID_TARJETA, @ID_MEDIO_PAGO, @MONTO_COMPRA)
+	INSERT INTO tb_pedido(ID_USUARIO_CLIENTE, ID_DIRENTREGA, tiempoentrega_pedido, fechareg_pedido, estado_pedido)
+	VALUES (@id_usuario_cliente, @id_direntrega, '00:45', GETDATE(), 'Pendiente')
 GO
-
+-- EXEC SP_INSERTPEDIDO 2, 2
+CREATE OR ALTER PROC SP_GETLASTPEDIDO
+@id_usuario_cliente INT
+AS
+	SELECT TOP 1 id_pedido FROM tb_pedido 
+	WHERE id_usuario_cliente = @id_usuario_cliente 
+	ORDER BY ID_PEDIDO DESC
+GO
+-- EXEC SP_GETLASTPEDIDO 2
+CREATE OR ALTER PROC SP_INSERTCOMPRAMONEY
+@id_pedido INT, @ID_MEDIO_PAGO INT, @MONTO_COMPRA MONEY
+AS
+	INSERT INTO tb_compra(id_pedido, id_medio_pago, monto_compra, fechareg_compra, estado_compra)
+	VALUES (@id_pedido, @ID_MEDIO_PAGO, @MONTO_COMPRA, GETDATE(), 'Exitosa')
+GO
+CREATE OR ALTER PROC SP_INSERTCOMPRACARD
+@id_pedido INT, @ID_MEDIO_PAGO INT, @ID_TARJETA INT, @MONTO_COMPRA MONEY
+AS
+	INSERT INTO tb_compra(id_pedido, id_medio_pago, id_tarjeta, monto_compra, fechareg_compra, estado_compra)
+	VALUES (@id_pedido, @ID_MEDIO_PAGO, @ID_TARJETA, @MONTO_COMPRA, GETDATE(), 'Exitosa')
+GO
+-- EXEC SP_INSERTCOMPRA 6, 1, 1, 20.25
 CREATE OR ALTER PROC SP_INSERTCART
-@ID_PRODUCTO INT , @CANTIDAD_PRODUCTO INT
+@ID_PEDIDO INT, @ID_PRODUCTO INT, @CANTIDAD INT
 AS
-INSERT CART (ID_PRODUCTO, CANTIDAD_PRODUCTO) VALUES (@ID_PRODUCTO, @CANTIDAD_PRODUCTO)
+	INSERT INTO tb_producto_pedido (id_pedido, id_producto, cantidad_producto)
+	VALUES (@ID_PEDIDO, @ID_PRODUCTO, @CANTIDAD)
 GO
+-- EXEC SP_INSERTCART 6, 3, 3
 
 
 
-SELECT TOP 1 * FROM PEDIDO ORDER BY ID_PEDIDO DESC
-SELECT * FROM CART
-SELECT * FROM tb_producto
-GO
+SELECT * FROM tb_pedido
+SELECT * FROM tb_compra
+SELECT * FROM tb_producto_pedido
