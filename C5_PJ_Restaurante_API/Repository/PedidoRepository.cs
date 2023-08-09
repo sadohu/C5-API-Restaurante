@@ -19,29 +19,63 @@ namespace C5_PJ_Restaurante_API.Repository
             string response = "";
             using (SqlConnection cnx = new(connectionString))
             {
+                var transaction = cnx.BeginTransaction();
                 try
                 {
-                    SqlCommand cmd = new("SP_INSERTPEDIDO", cnx)
+                    cnx.Open();
+
+                    // Insertar pedido
+                    SqlCommand cmd = new("SP_INSERTPEDIDO", cnx, transaction)
                     { CommandType = CommandType.StoredProcedure };
                     cmd.Parameters.AddWithValue("@ID_USUARIO_CLIENTE", pedido.id_usuario_cliente);
                     cmd.Parameters.AddWithValue("@ID_DIRENTREGA", pedido.id_dirEntrega);
-                    cmd.Parameters.AddWithValue("@ID_TARJETA", pedido.id_tarjeta);
-                    cmd.Parameters.AddWithValue("@ID_MEDIO_PAGO", pedido.id_medio_pago);
-                    cmd.Parameters.AddWithValue("@MONTO_COMPRA", pedido.monto_compra);
-                    cnx.Open();
-                    int i = cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
 
-                    SqlCommand cmd2 = new("SP_INSERTCART", cnx) 
+                    // Obtener el último ID de pedido insertado
+                    SqlCommand cmd2 = new("SP_GETLASTPEDIDO", cnx, transaction)
                     { CommandType = CommandType.StoredProcedure };
-                    cmd2.Parameters.AddWithValue("@ID_PRODUCTO", pedido.id_usuario_cliente);
-                    cmd2.Parameters.AddWithValue("@CANTIDAD_PRODUCTO", pedido.id_dirEntrega);
-                    int i2 = cmd2.ExecuteNonQuery();
-                    cnx.Close();
+                    cmd2.Parameters.AddWithValue("@id_usuario_cliente", pedido.id_usuario_cliente);
+                    var dr2 = cmd2.ExecuteReader();
+                    while(dr2.Read())
+                    {
+                        pedido.id_pedido = dr2.GetInt32(0);
+                    }
+
+                    // Insertar compra
+                    SqlCommand cmd3 = new("SP_INSERTCOMPRA", cnx, transaction)
+                    { CommandType = CommandType.StoredProcedure };
+                    cmd3.Parameters.AddWithValue("@ID_PEDIDO", pedido.id_pedido);
+                    cmd3.Parameters.AddWithValue("@ID_MEDIO_PAGO", pedido.id_medio_pago);
+                    cmd3.Parameters.AddWithValue("@ID_TARJETA", pedido.id_tarjeta);
+                    cmd3.Parameters.AddWithValue("@MONTO_COMPRA", pedido.monto_compra);
+                    cmd3.ExecuteNonQuery();
+
+                    // Insertar detalles de los productos
+                    if (pedido.carts != null)
+                    {
+                        foreach (Cart cart in pedido.carts!)
+                        {
+                            SqlCommand cmd4 = new("SP_INSERTCART", cnx, transaction)
+                            { CommandType = CommandType.StoredProcedure };
+                            cmd4.Parameters.AddWithValue("@ID_PEDIDO", pedido.id_pedido);
+                            cmd4.Parameters.AddWithValue("@ID_PRODUCTO", cart.id_producto);
+                            cmd4.Parameters.AddWithValue("@CANTIDAD", cart.cantidad_producto);
+                            cmd4.ExecuteNonQuery();
+                        }
+                    }
+
+                    transaction.Commit();
                     response = "Registro exitoso";
                 }
                 catch (Exception ex)
                 {
+                    transaction.Rollback();
+                    cnx.Close();
                     response = ex.Message;
+                }
+                finally
+                {
+                    cnx.Close();
                 }
             }
             return response;
