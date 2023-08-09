@@ -398,6 +398,42 @@ AS
 	WHERE id_tarjeta = @ID_TARJETA
 GO
 
+-- ================ DISTRITO ========================
+CREATE OR ALTER PROC SP_GETDISTRITO
+AS
+BEGIN 
+	SELECT * FROM tb_distrito
+END
+GO
+
+-- ================ CATEGORIA ========================
+CREATE OR ALTER PROC SP_GETCATEGORIA
+AS
+BEGIN 
+	SELECT * FROM tb_categoria_producto
+END
+GO
+-- INSERT
+CREATE OR ALTER PROC SP_INSERTCATEGORIA
+@DESCRIPCION VARCHAR(100)
+AS
+	INSERT INTO tb_categoria_producto (des_categoria_producto)
+	VALUES (@DESCRIPCION)
+GO
+-- UPDATE
+CREATE OR ALTER PROC SP_UPDATECATEGORIA
+@ID INT, @DESCRIPCION VARCHAR(100)
+AS
+	UPDATE tb_categoria_producto SET des_categoria_producto = @DESCRIPCION
+	WHERE id_categoria_producto = @ID
+GO
+-- DELETE
+CREATE OR ALTER PROC SP_DELETECATEGORIA
+@ID INT
+AS
+	DELETE FROM tb_categoria_producto WHERE id_categoria_producto = @ID
+GO
+
 
 
 
