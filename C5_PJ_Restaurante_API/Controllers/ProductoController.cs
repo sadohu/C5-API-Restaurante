@@ -13,7 +13,7 @@ namespace C5_PJ_Restaurante_API.Controllers
 
         public ProductoController()
         {
-            this.iProducto = new ProductoRepository();
+            iProducto = new ProductoRepository();
         }
 
         [HttpGet("getProductos")]
