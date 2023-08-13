@@ -82,5 +82,34 @@ namespace C5_PJ_Restaurante_API.Repository
             }
             return response;
         }
+
+        public string Update(tb_pedido pedido)
+        {
+            string response = "";
+            using (SqlConnection cn = new(connectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new("SP_UPDATEPEDIDOESTADO", cn)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("@ESTADO", pedido.estado_pedido);
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+                    response = "Se actualizó el pedido exitosamente.";
+                }
+                catch (Exception ex)
+                {
+                    response = ex.Message;
+                    cn.Close();
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return response;
+        }
     }
 }

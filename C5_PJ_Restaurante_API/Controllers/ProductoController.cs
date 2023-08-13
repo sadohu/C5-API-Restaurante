@@ -45,5 +45,11 @@ namespace C5_PJ_Restaurante_API.Controllers
         {
             return Ok(await Task.Run(() => iProducto.Eliminar(idproducto)));
         }
+
+        [HttpGet("getProductosPortal")]
+        public async Task<ActionResult<IEnumerable<tb_producto>>> getProductoPortal()
+        {
+            return Ok(await Task.Run(() => iProducto.GetProductoPortal()));
+        }
     }
 }

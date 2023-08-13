@@ -34,7 +34,7 @@ namespace C5_PJ_Restaurante_API.Controllers
             return Ok(await Task.Run(() => iCategoria.Update(categoria)));
         }
 
-        [HttpPut("deleteCategoria")]
+        [HttpDelete("deleteCategoria")]
         public async Task<ActionResult<string>> eliminarProducto(int id)
         {
             return Ok(await Task.Run(() => iCategoria.Delete(id)));

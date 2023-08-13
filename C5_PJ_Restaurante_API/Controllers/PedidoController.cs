@@ -21,5 +21,11 @@ namespace C5_PJ_Restaurante_API.Controllers
         {
             return Ok(await Task.Run(() => iPedido.SavePedido(pedido)));
         }
+
+        [HttpPost("updateEstadoPedido")]
+        public async Task<ActionResult<string>> Actualizar(tb_pedido pedido)
+        {
+            return Ok(await Task.Run(() => iPedido.Update(pedido)));
+        }
     }
 }

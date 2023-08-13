@@ -366,7 +366,7 @@ AS
 	WHERE id_direntrega = @ID_DIRECCION
 GO
 
--- ================ DIRECCION ========================
+-- ================ TARJETA ========================
 CREATE OR ALTER PROC SP_GETTARJETA
 @ID_USUARIO INT
 AS
@@ -434,38 +434,14 @@ AS
 	DELETE FROM tb_categoria_producto WHERE id_categoria_producto = @ID
 GO
 
-
-
-
-
-
-
-
-SELECT * FROM tb_tarjeta
-GO
-
-
-
-
--- ================ usp_listadoEcommer ========================
-CREATE OR ALTER PROC usp_listadoEcommer
+-- ================ PEDIDO ========================
+CREATE OR ALTER PROC SP_GETPEDIDOPENDIENTE
 AS
-Select p.id_producto,p.nom_producto,p.des_producto,cp.des_categoria_producto,
-p.preciouni_producto,p.stock_producto
-from tb_producto p inner join tb_categoria_producto cp
-on p.id_categoria_producto=cp.id_categoria_producto
+	SELECT * FROM tb_pedido 
+	WHERE estado_pedido = 'Pendiente'
+	ORDER BY id_pedido ASC
 GO
--- EXEC usp_listadoEcommer
 
-
--- ================ T-SQL CREATE PEDIDO ========================
-CREATE OR ALTER PROC SP_INSERTPEDIDO
-@id_usuario_cliente INT, @id_direntrega INT
-AS
-	INSERT INTO tb_pedido(ID_USUARIO_CLIENTE, ID_DIRENTREGA, tiempoentrega_pedido, fechareg_pedido, estado_pedido)
-	VALUES (@id_usuario_cliente, @id_direntrega, '00:45', GETDATE(), 'Pendiente')
-GO
--- EXEC SP_INSERTPEDIDO 2, 2
 CREATE OR ALTER PROC SP_GETLASTPEDIDO
 @id_usuario_cliente INT
 AS
@@ -473,7 +449,22 @@ AS
 	WHERE id_usuario_cliente = @id_usuario_cliente 
 	ORDER BY ID_PEDIDO DESC
 GO
--- EXEC SP_GETLASTPEDIDO 2
+--INSERT
+CREATE OR ALTER PROC SP_INSERTPEDIDO
+@id_usuario_cliente INT, @id_direntrega INT
+AS
+	INSERT INTO tb_pedido(ID_USUARIO_CLIENTE, ID_DIRENTREGA, tiempoentrega_pedido, fechareg_pedido, estado_pedido)
+	VALUES (@id_usuario_cliente, @id_direntrega, '00:45', GETDATE(), 'Pendiente')
+GO
+-- UPDATE																																				TODO
+CREATE OR ALTER PROC SP_UPDATEPEDIDOESTADO
+@ESTADO VARCHAR(100)
+AS
+	INSERT INTO tb_pedido(estado_pedido, fechaact_pedido)
+	VALUES (@ESTADO, GETDATE())
+GO
+
+-- ================ COMPRAS ========================
 CREATE OR ALTER PROC SP_INSERTCOMPRAMONEY
 @id_pedido INT, @ID_MEDIO_PAGO INT, @MONTO_COMPRA MONEY
 AS
@@ -486,17 +477,32 @@ AS
 	INSERT INTO tb_compra(id_pedido, id_medio_pago, id_tarjeta, monto_compra, fechareg_compra, estado_compra)
 	VALUES (@id_pedido, @ID_MEDIO_PAGO, @ID_TARJETA, @MONTO_COMPRA, GETDATE(), 'Exitosa')
 GO
--- EXEC SP_INSERTCOMPRA 6, 1, 1, 20.25
+
+-- ================ CART ========================
 CREATE OR ALTER PROC SP_INSERTCART
 @ID_PEDIDO INT, @ID_PRODUCTO INT, @CANTIDAD INT
 AS
 	INSERT INTO tb_producto_pedido (id_pedido, id_producto, cantidad_producto)
 	VALUES (@ID_PEDIDO, @ID_PRODUCTO, @CANTIDAD)
 GO
--- EXEC SP_INSERTCART 6, 3, 3
 
 
 
+
+-- ================ usp_listadoEcommer ========================																							TODO
+CREATE OR ALTER PROC usp_listadoEcommer
+AS
+Select p.id_producto,p.nom_producto,p.des_producto,cp.des_categoria_producto,
+p.preciouni_producto,p.stock_producto
+from tb_producto p inner join tb_categoria_producto cp
+on p.id_categoria_producto=cp.id_categoria_producto
+GO
+-- EXEC usp_listadoEcommer
+
+SELECT * FROM tb_usuario
+SELECT * FROM tb_tarjeta
 SELECT * FROM tb_pedido
 SELECT * FROM tb_compra
 SELECT * FROM tb_producto_pedido
+
+GO
