@@ -524,10 +524,10 @@ END
 GO
 -- LOGIN
 CREATE OR ALTER PROC SP_LOGINUSUARIO
-@EMAIL VARCHAR(100), @TELEFONO VARCHAR(100), @PASS VARCHAR(100)
+@USER VARCHAR(100), @PASS VARCHAR(100)
 AS
 BEGIN 
-	SELECT * FROM tb_usuario WHERE email_usuario = @EMAIL OR cel_usuario = @TELEFONO AND password_usuario = @PASS AND estado_usuario = 'ACTIVO'
+	SELECT * FROM tb_usuario WHERE email_usuario = @USER OR cel_usuario = @USER AND password_usuario = @PASS AND estado_usuario = 'ACTIVO'
 END
 GO
 -- INSERT
