@@ -89,7 +89,7 @@ namespace C5_PJ_Restaurante_API.Repository
                     };
                     cmd.Parameters.AddWithValue("@NOMBRE", usuario.nom_usuario);
                     cmd.Parameters.AddWithValue("@APELLIDOS", usuario.ape_usuario);
-                    cmd.Parameters.AddWithValue("@TELEFONO", usuario.tel_usuario);
+                    cmd.Parameters.AddWithValue("@TELEFONO", usuario.cel_usuario);
                     cmd.Parameters.AddWithValue("@EMAIL", usuario.email_usuario);
                     cmd.Parameters.AddWithValue("@PASS", usuario.password_usuario);
                     cnx.Open();
@@ -122,7 +122,7 @@ namespace C5_PJ_Restaurante_API.Repository
                     cmd.Parameters.AddWithValue("@ID", usuario.id_usuario);
                     cmd.Parameters.AddWithValue("@NOMBRE", usuario.nom_usuario);
                     cmd.Parameters.AddWithValue("@APELLIDOS", usuario.ape_usuario);
-                    cmd.Parameters.AddWithValue("@TELEFONO", usuario.tel_usuario);
+                    cmd.Parameters.AddWithValue("@TELEFONO", usuario.cel_usuario);
                     cmd.Parameters.AddWithValue("@EMAIL", usuario.email_usuario);
                     cmd.Parameters.AddWithValue("@PASS", usuario.password_usuario);
                     cnx.Open();
@@ -213,23 +213,26 @@ namespace C5_PJ_Restaurante_API.Repository
                 };
                 cmd.Parameters.AddWithValue("@USER", usuario.email_usuario);
                 var dr = cmd.ExecuteReader();
-                while (!dr.Read())
+                if (dr.Read())
                 {
+                    dr.Close();
                     cnx.Close();
                     return response = "Email registrado, por favor use uno dististo.";
                 }
-
+                dr.Close();
                 SqlCommand cmd2 = new("SP_GETUSUARIOPHONE", cnx)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                cmd.Parameters.AddWithValue("@USER", usuario.cel_usuario);
-                var dr2 = cmd.ExecuteReader();
-                while (!dr2.Read())
+                cmd2.Parameters.AddWithValue("@USER", usuario.cel_usuario);
+                var dr2 = cmd2.ExecuteReader();
+                if (dr2.Read())
                 {
+                    dr2.Close();
                     cnx.Close();
                     return response = "Celular registrado, por favor use uno dististo.";
                 }
+                dr2.Close();
                 cnx.Close();
             }
             return response;

@@ -43,17 +43,17 @@ go
 CREATE TABLE tb_usuario(
 id_usuario int IDENTITY(1,1) PRIMARY KEY,
 id_tipo_usuario int NOT NULL ,
-cod_usuario varchar(100) NOT NULL,
+cod_usuario varchar(100) NULL,
 nom_usuario varchar(100) NOT NULL,
 ape_usuario varchar(100) NOT NULL,
-tel_usuario char(12),
+tel_usuario char(12) NULL,
 cel_usuario char(12) NOT NULL,
 id_distrito int NOT NULL ,
-dir_usuario varchar(100) NOT NULL,
-dni_usuario char(8) NOT NULL,
+dir_usuario varchar(100) NULL,
+dni_usuario char(8) NULL,
 email_usuario varchar(100) NOT NULL,
 password_usuario varchar(100) NOT NULL,
-imagen_usuario varbinary(max),
+imagen_usuario VARCHAR(500) NULL,
 fechaReg_usuario datetime NOT NULL,
 fechaAct_usuario datetime NULL,
 estado_usuario varchar(100) NOT NULL,
@@ -530,6 +530,21 @@ BEGIN
 	SELECT * FROM tb_usuario WHERE email_usuario = @USER OR cel_usuario = @USER AND password_usuario = @PASS AND estado_usuario = 'ACTIVO'
 END
 GO
+-- IF EXISTS
+CREATE OR ALTER PROC SP_GETUSUARIOEMAIL
+@USER VARCHAR(100)
+AS
+BEGIN 
+	SELECT * FROM tb_usuario WHERE email_usuario = @USER AND estado_usuario = 'ACTIVO'
+END
+GO
+CREATE OR ALTER PROC SP_GETUSUARIOPHONE
+@USER VARCHAR(100)
+AS
+BEGIN 
+	SELECT * FROM tb_usuario WHERE cel_usuario = @USER AND estado_usuario = 'ACTIVO'
+END
+GO
 -- INSERT
 CREATE OR ALTER PROC SP_INSERTUSUARIO
 @NOMBRE VARCHAR(150),
@@ -597,3 +612,6 @@ SELECT * FROM tb_producto_pedido
 GO
 
 SELECT @@IDENTITY
+
+ALTER TABLE TB_USUARIO 
+ALTER COLUMN DNI_USUARIO VARCHAR(100) NULL

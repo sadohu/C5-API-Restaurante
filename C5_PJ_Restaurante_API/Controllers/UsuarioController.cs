@@ -30,7 +30,7 @@ namespace C5_PJ_Restaurante_API.Controllers
         [HttpPost("saveUsuario")]
         public async Task<ActionResult<string>> Agregar(tb_usuario usuario)
         {
-            return Ok(await Task.Run(() => iUsuario.Update(usuario)));
+            return Ok(await Task.Run(() => iUsuario.Add(usuario)));
         }
 
         [HttpPut("updateUsuario")]
