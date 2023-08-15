@@ -35,6 +35,7 @@ namespace C5_PJ_Restaurante_API.Repository
                         numero_tarjeta = dr.GetString(2),
                         cvv_tarjeta = dr.GetString(3),
                         fecha_tarjeta = dr.GetString(4),
+                        nombre_tarjeta = dr.GetString(5),
                     });
                 }
                 cn.Close();

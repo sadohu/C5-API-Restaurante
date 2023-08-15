@@ -34,7 +34,8 @@ namespace C5_PJ_Restaurante_API.Repository
                         nom_producto = dr.GetString(2),
                         des_producto = dr.GetString(3),
                         preciouni_producto = dr.GetDecimal(4),
-                        stock_producto = dr.GetInt32(5)
+                        stock_producto = dr.GetInt32(5),
+                        imagen_producto = dr.GetString(6)
                     });
                 }
                 cn.Close();

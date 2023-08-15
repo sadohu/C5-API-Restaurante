@@ -81,7 +81,7 @@ id_usuario int NOT NULL,
 id_direntrega int IDENTITY(1,1),
 id_distrito int,
 nombre_direntrega varchar(100) null,
-des_direntrega varchar(100) not null,
+des_direntrega varchar(100) null,
 detalle_direntrega varchar(100) null,
 fechareg_direntrega datetime NOT NULL,
 estado_direntrega varchar(100) NOT NULL,
@@ -116,7 +116,7 @@ nom_producto varchar(100) NOT NULL,
 des_producto varchar(500),
 preciouni_producto money NOT NULL,
 stock_producto int NOT NULL,
-imagen_producto varbinary(max) NULL,
+imagen_producto varchar(500) NULL,
 estado_producto varchar(100) NOT NULL,
 
 FOREIGN KEY (id_categoria_producto) REFERENCES tb_categoria_producto (id_categoria_producto)
@@ -199,23 +199,47 @@ VALUES ('Cocinero'), ('Repartidor'), ('Limpieza'), ('Atención al cliente'), ('En
 
 -- Insertar datos en tb_distrito
 INSERT INTO tb_distrito (des_distrito)
-VALUES ('Miraflores'), ('San Isidro'), ('Barranco'), ('Surco'), ('Magdalena');
+VALUES   ('Lima'), ('Barranco'), ('Breña'), ('Comas'), ('El Agustino'), ('Independencia'), ('Los Olivos'), ('Rimac'), ('San Juan de Lurigancho'),
+	('San Juan de Miraflores'), ('San Martin de Porres'), ('Surquillo'), ('Villa Maria del Triunfo'), ('Callao');
 
 -- Insertar datos en tb_mediopago
 INSERT INTO tb_mediopago (des_medio_pago)
-VALUES ('Visa'), ('MasterCard'), ('American Express'), ('Paypal'), ('Yape');
+VALUES ('Efectivo'), ('Tarjeta');
 
 -- Insertar datos en tb_categoria_producto
 INSERT INTO tb_categoria_producto (des_categoria_producto)
-VALUES ('Bebidas'), ('Entradas'), ('Platos principales'), ('Postres'), ('Extras');
+VALUES ('Pollos y Carnes'), ('Bebidas'), ('Salsas y Aderezos'), ('Combos y Menús'), ('Acompañamientos');
 
 -- Insertar datos en tb_usuario
 INSERT INTO tb_usuario (id_tipo_usuario, cod_usuario, nom_usuario, ape_usuario, tel_usuario, cel_usuario, id_distrito, dir_usuario, dni_usuario, email_usuario, password_usuario, imagen_usuario, fechaReg_usuario, fechaAct_usuario, estado_usuario)
-VALUES (2, 'USER001', 'Juan', 'Perez', '01-1234567', '987654321', 1, 'Av. Los Pinos 123', '12345678', 'juan.perez@example.com', '12345678', NULL, GETDATE(), GETDATE(), 'Activo'),
-       (2, 'USER002', 'Maria', 'Lopez', '01-2345678', '987654322', 2, 'Calle Flores 456', '23456789', 'maria.lopez@example.com', '23456789', NULL, GETDATE(), GETDATE(), 'Activo'),
-       (2, 'USER003', 'Pedro', 'Gomez', '01-3456789', '987654323', 3, 'Jr. San Martin 789', '34567890', 'pedro.gomez@example.com', '34567890', NULL, GETDATE(), GETDATE(), 'Activo'),
-       (2, 'USER004', 'Ana', 'Ramirez', '01-4567890', '987654324', 4, 'Av. Los Alamos 101', '45678901', 'ana.ramirez@example.com', '45678901', NULL, GETDATE(), GETDATE(), 'Activo'),
-       (2, 'USER005', 'Carlos', 'Garcia', '01-5678901', '987654325', 5, 'Calle Los Pajaritos 789', '56789012', 'carlos.garcia@example.com', '56789012', NULL, GETDATE(), GETDATE(), 'Activo');
+VALUES (1, 'ADMI001', 'Mark', 'Julca', '01-9999999', '999999999', 1, 'Admin', '99999999', 'admin@admin.com', 'Admin', NULL, GETDATE(), GETDATE(), 'Activo');
+--,  
+--	   (3, 'USER001', 'Juan', 'Perez', '01-1234567', '987654321', 1, 'Av. Los Pinos 123', '12345678', 'juan.perez@example.com', '12345678', NULL, GETDATE(), GETDATE(), 'Activo'),
+--       (3, 'USER002', 'Maria', 'Lopez', '01-2345678', '987654322', 2, 'Calle Flores 456', '23456789', 'maria.lopez@example.com', '23456789', NULL, GETDATE(), GETDATE(), 'Activo'),
+--       (3, 'USER003', 'Pedro', 'Gomez', '01-3456789', '987654323', 3, 'Jr. San Martin 789', '34567890', 'pedro.gomez@example.com', '34567890', NULL, GETDATE(), GETDATE(), 'Activo'),
+--       (3, 'USER004', 'Ana', 'Ramirez', '01-4567890', '987654324', 4, 'Av. Los Alamos 101', '45678901', 'ana.ramirez@example.com', '45678901', NULL, GETDATE(), GETDATE(), 'Activo'),
+--       (3, 'USER005', 'Carlos', 'Garcia', '01-5678901', '987654325', 5, 'Calle Los Pajaritos 789', '56789012', 'carlos.garcia@example.com', '56789012', NULL, GETDATE(), GETDATE(), 'Activo');
+
+INSERT INTO tb_usuario (id_tipo_usuario, cod_usuario, nom_usuario, ape_usuario, tel_usuario, cel_usuario, id_distrito, dir_usuario, dni_usuario, email_usuario, password_usuario, imagen_usuario, fechaReg_usuario, fechaAct_usuario, estado_usuario)
+VALUES
+    (2, 'CLI001', 'Juan', 'Pérez', '1234567', '987654321', 1, 'Av. Los Pinos 123', '12345678', 'juan@example.com', 'password123', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI002', 'María', 'Gómez', '9876543', '987654322', 2, 'Jr. Las Rosas 456', '87654321', 'maria@example.com', 'securepwd456', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI003', 'Carlos', 'López', '7654321', '987654323', 3, 'Calle San Martín 789', '56789012', 'carlos@example.com', 'adminpass789', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI004', 'Ana', 'Rodríguez', '9876541', '987654324', 4, 'Av. Principal 101', '34567890', 'ana@example.com', 'adminsecure123', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI005', 'Pedro', 'Martínez', '8765432', '987654325', 5, 'Jr. Los Pájaros 234', '23456789', 'pedro@example.com', 'deliverypwd456', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI006', 'Laura', 'Sánchez', '7654321', '987654326', 6, 'Calle Los Olivos 567', '45678901', 'laura@example.com', 'deliverysecure789', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI007', 'Andrés', 'Hernández', '9876543', '987654327', 7, 'Av. Las Flores 789', '56789012', 'andres@example.com', 'delivery123', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI008', 'Luis', 'Ramírez', '8765432', '987654328', 8, 'Jr. Los Cerezos 567', '12345678', 'luis@example.com', 'clientpwd456', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI009', 'Sofía', 'García', '7654321', '987654329', 9, 'Calle Los Pinos 123', '23456789', 'sofia@example.com', 'clientsecure789', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI010', 'Martín', 'Díaz', '9876543', '987654330', 10, 'Av. Principal 456', '34567890', 'martin@example.com', 'client123', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI011', 'Isabel', 'Luna', '8765432', '987654331', 11, 'Jr. Las Rosas 789', '45678901', 'isabel@example.com', 'clientsecure456', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI012', 'Diego', 'Peralta', '7654321', '987654332', 12, 'Calle San Martín 101', '56789012', 'diego@example.com', 'clientpwd789', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI013', 'Valeria', 'Mendoza', '9876543', '987654333', 13, 'Av. Los Pájaros 234', '12345678', 'valeria@example.com', 'clientsecure123', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI014', 'Jorge', 'Herrera', '8765432', '987654334', 14, 'Jr. Los Cerezos 567', '23456789', 'jorge@example.com', 'clientpwd123', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI015', 'Carolina', 'Silva', '7654321', '987654335', 5, 'Calle Los Olivos 123', '34567890', 'carolina@example.com', 'clientsecure456', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI016', 'José', 'Rojas', '9876543', '987654336', 1, 'Av. Las Flores 456', '45678901', 'jose@example.com', 'clientpwd789', NULL, '2023-07-02', NULL, 'Activo'),
+    (2, 'CLI017', 'Fernanda', 'Chávez', '8765432', '987654337', 2, 'Jr. Los Pinos 789', '56789012', 'fernanda@example.com', 'clientsecure123', NULL, '2023-07-02', NULL, 'Activo');
+
 
 -- Insertar datos en tb_colaborador
 INSERT INTO tb_colaborador (id_tipo_colaborador, nom_colaborador, ape_colaborador, dni_colaborador, imagen_colaborador, fechaReg_colaborador, fechaAct_colaborador, estado_colaborador)
@@ -227,43 +251,48 @@ VALUES (1, 'Luis', 'Martinez', '11111111', NULL, GETDATE(), GETDATE(), 'Activo')
 
 -- Insertar datos en tb_direntrega_usuario
 INSERT INTO tb_direntrega_usuario (id_usuario, id_distrito, nombre_direntrega, des_direntrega, detalle_direntrega, fechareg_direntrega, estado_direntrega)
-VALUES (1, 1, 'Oficina', 'Av. Los Pinos 123', 'Departamento 201', GETDATE(), 'Activo'),
+VALUES (2, 1, 'Oficina', 'Av. Los Pinos 123', 'Departamento 201', GETDATE(), 'Activo'),
        (2, 2, 'Casa', 'Calle Flores 456', 'Puerta Marron', GETDATE(), 'Activo'),
-       (3, 3, 'Casa', 'Jr. San Martin 789', 'Ref. Jr. Montenegro', GETDATE(), 'Activo'),
-       (4, 4, 'Torre 1', 'Av. Los Alamos 101', 'Dejar en seguridad', GETDATE(), 'Activo'),
-       (5, 5, 'Depa Surco', 'Calle Los Pajaritos 789', 'Llamar al llegar', GETDATE(), 'Activo');
+       (2, 3, 'Casa', 'Jr. San Martin 789', 'Ref. Jr. Montenegro', GETDATE(), 'Activo'),
+       (3, 4, 'Torre 1', 'Av. Los Alamos 101', 'Dejar en seguridad', GETDATE(), 'Activo'),
+       (3, 5, 'Depa Surco', 'Calle Los Pajaritos 789', 'Llamar al llegar', GETDATE(), 'Activo');
 
 -- Insertar datos en tb_tarjeta
 INSERT INTO tb_tarjeta (id_usuario, numero_tarjeta, cvv_tarjeta, fecha_tarjeta, nombre_tarjeta, fechareg_tarjeta, estado_tarjeta)
-VALUES (1, '1111222233334444', '123', '2023-12', 'Juan Perez', GETDATE(), 'Activo'),
+VALUES (2, '1111222233334444', '123', '2023-12', 'Juan Perez', GETDATE(), 'Activo'),
        (2, '4444333322221111', '456', '2024-05', 'Maria Lopez', GETDATE(), 'Activo'),
        (3, '7777666655554444', '789', '2025-10', 'Pedro Gomez', GETDATE(), 'Activo'),
-       (4, '9999888877776666', '987', '2026-01', 'Ana Ramirez', GETDATE(), 'Activo'),
-       (5, '1234123412341234', '234', '2027-06', 'Carlos Garcia', GETDATE(), 'Activo');
+       (3, '9999888877776666', '987', '2026-01', 'Ana Ramirez', GETDATE(), 'Activo'),
+       (4, '1234123412341234', '234', '2027-06', 'Carlos Garcia', GETDATE(), 'Activo');
 
 -- Insertar datos en tb_pedido
 INSERT INTO tb_pedido (id_usuario_cliente, id_direntrega, id_colaborador_repartidor, tiempoentrega_pedido, fechareg_pedido, fechaact_pedido, estado_pedido)
-VALUES (1, 1, 1, '12:00:00', GETDATE(), GETDATE(), 'Pendiente'),
+VALUES (2, 1, 1, '12:00:00', GETDATE(), GETDATE(), 'Pendiente'),
        (2, 2, 2, '13:30:00', GETDATE(), GETDATE(), 'Entregado'),
-       (3, 3, 3, '14:45:00', GETDATE(), GETDATE(), 'En camino'),
-       (4, 4, 4, '16:00:00', GETDATE(), GETDATE(), 'Pendiente'),
-       (5, 5, 5, '17:30:00', GETDATE(), GETDATE(), 'En camino');
+       (2, 3, 3, '14:45:00', GETDATE(), GETDATE(), 'En camino'),
+       (3, 4, 4, '16:00:00', GETDATE(), GETDATE(), 'Pendiente'),
+       (3, 5, 5, '17:30:00', GETDATE(), GETDATE(), 'En camino');
 
 -- Insertar datos en tb_producto
 INSERT INTO tb_producto (id_categoria_producto, nom_producto, des_producto, preciouni_producto, stock_producto, imagen_producto, estado_producto)
-VALUES (1, 'Gaseosa', 'Bebida gasificada de varios sabores.', 5.50, 100, NULL, 'Activo'),
-       (2, 'Papas Fritas', 'Entrada de papas fritas con salsa.', 8.00, 50, NULL, 'Activo'),
-       (3, 'Pollo a la Brasa', 'Pollo asado con acompañamiento.', 18.50, 30, NULL, 'Activo'),
-       (4, 'Torta de Chocolate', 'Postre de chocolate con relleno.', 12.00, 20, NULL, 'Activo'),
-       (5, 'Salsas Extras', 'Salsas adicionales para acompañar.', 2.50, 100, NULL, 'Activo');
+VALUES
+	   (1, '1/4 de Pollo', '1/4 de pollo a la brasa + papas fritas + ensalada + limonada personal', 21.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689295869-413763--cuarto-oferton.jpg', 'Activo'),
+       (1, 'Pollo + Papas + Chaufa + Ensalada', 'Pollo a la brasa acompañado de abundantes papas fritas, chaufa de hot dog familiar y ensalada', 73.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1676984400-658712--mega-promo-online.jpg', 'Activo'),
+       (1, 'Pollo a la Brasa', '1 Pollo a la brasa + abundantes papas fritas + ensalada de lechuga, tomate y pepino.', 60.90, 30, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1677213828-059195--mega-promo.jpg', 'Activo'),
+       (1, '1/4 Anticuchero', '1/4 Pollo a la brasa + anticucho + abundantes papas fritas + ensalada de lechuga, tomate y pepino', 30.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689285227-709844--cuarto_anticuchero.jpg', 'Activo'),
+       (1, '1/4 Carretillero', '1/4 Pollo a la brasa + mollejitas + abundantes papas fritas + ensalada de lechuga, tomate y pepino', 32.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689286372-328585--cuarto-carretillero_1.jpg', 'Activo'),
+	   (1, '1/4 Choricero', '1/4 Pollo a la brasa + chorizo + abundantes papas fritas + ensalada de lechuga, tomate y pepino', 30.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689285262-817818--cuarto_choricero.jpg', 'Activo'),
+	   (1, 'Parrilla Para 2', '1/4 de pollo a la brasa, chorizo parrillero, hot dog, 2 palitos de anticucho, chuleta, crocantes papas fritas y ensalada mediana', 68.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686591138-333056--parrilla_personal_1.jpg', 'Activo'),
+	   (1, 'Parrilla Familiar', '1/4 de pollo, bife, chorizo parrillero, chuleta o pechuga, hot dog, 2 palitos de anticuchos acompañado de papas fritas y ensalada', 93.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686588754-599284--parrilla_familiar.jpg', 'Activo'),
+	   (1, 'Parrilla Leña & Carbon', '1/2 pollo a la brasa, 2 palitos de anticucho, chuleta, mollejitas, filete de pierna, lomo fino, churrasco, 2 chorizos, 2 hot dog, papas fritas, ensalada familiar y 1.5L. de limonada', 119.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686588631-24924--parrilla_le%C3%B1aycarbon.jpg', 'Activo');
 
 -- Insertar datos en tb_producto_pedido
 INSERT INTO tb_producto_pedido (id_pedido, id_producto, cantidad_producto)
 VALUES (1, 1, 2),
-       (1, 3, 1),
-       (2, 2, 3),
-       (3, 3, 2),
-       (4, 4, 1);
+       (2, 3, 1),
+       (3, 2, 3),
+       (4, 3, 2),
+       (5, 4, 1);
 
 -- Insertar datos en tb_seguimiento_pedido
 INSERT INTO tb_seguimiento_pedido (id_pedido, fechareg_seguimiento_pedido, estado_seguimmiento_pedido)
@@ -275,11 +304,11 @@ VALUES (1, GETDATE(), 'En camino'),
 
 -- Insertar datos en tb_compra
 INSERT INTO tb_compra (id_pedido, id_medio_pago, monto_compra, fechareg_compra, estado_compra)
-VALUES (1, 1, 25.00, GETDATE(), 'Exitosa'),
-       (2, 2, 24.00, GETDATE(), 'Exitosa'),
-       (3, 3, 28.50, GETDATE(), 'Exitosa'),
-       (4, 4, 18.50, GETDATE(), 'Exitosa'),
-       (5, 5, 20.00, GETDATE(), 'Exitosa');
+VALUES (1, 1, 43.80, GETDATE(), 'Exitosa'),
+       (2, 2, 60.90, GETDATE(), 'Exitosa'),
+       (3, 1, 221.70, GETDATE(), 'Exitosa'),
+       (4, 1, 147.80, GETDATE(), 'Exitosa'),
+       (5, 1, 30.90, GETDATE(), 'Exitosa');
 
 -- Insertar datos en tb_comentario
 INSERT INTO tb_comentario (id_usuario_cliente, des_comentario, cantestrella_comentario, fechareg_comentario, estado_comentario)
@@ -486,6 +515,65 @@ AS
 	VALUES (@ID_PEDIDO, @ID_PRODUCTO, @CANTIDAD)
 GO
 
+-- ================ USUARIO ========================
+CREATE OR ALTER PROC SP_LISTARUSUARIO
+AS
+BEGIN 
+	SELECT * FROM tb_usuario WHERE estado_usuario = 'ACTIVO'
+END
+GO
+-- LOGIN
+CREATE OR ALTER PROC SP_LOGINUSUARIO
+@EMAIL VARCHAR(100), @TELEFONO VARCHAR(100), @PASS VARCHAR(100)
+AS
+BEGIN 
+	SELECT * FROM tb_usuario WHERE email_usuario = @EMAIL OR cel_usuario = @TELEFONO AND password_usuario = @PASS AND estado_usuario = 'ACTIVO'
+END
+GO
+-- INSERT
+CREATE OR ALTER PROC SP_INSERTUSUARIO
+@NOMBRE VARCHAR(150),
+@APELLIDOS VARCHAR(150),
+@TELEFONO VARCHAR(150),
+@EMAIL VARCHAR(150),
+@PASS VARCHAR(150)
+AS
+BEGIN
+	INSERT INTO tb_usuario(id_tipo_usuario, nom_usuario, ape_usuario, cel_usuario, email_usuario, password_usuario, fechaReg_usuario, estado_usuario)
+	VALUES (2, @NOMBRE, @APELLIDOS, @TELEFONO, @EMAIL, @PASS, GETDATE(), 'Activo')
+END
+GO
+-- UPDATE
+CREATE OR ALTER PROC SP_UPDATEUSUARIO
+@ID INT,
+@NOMBRE VARCHAR(150),
+@APELLIDOS VARCHAR(150),
+@TELEFONO VARCHAR(150),
+@EMAIL VARCHAR(150),
+@PASS VARCHAR(150)
+AS
+BEGIN
+	UPDATE tb_usuario SET nom_usuario = @NOMBRE, ape_usuario = @APELLIDOS, cel_usuario = @TELEFONO,
+	email_usuario = @EMAIL, password_usuario = @PASS, fechaAct_usuario = GETDATE() WHERE id_usuario = @ID
+END
+GO
+CREATE OR ALTER PROC SP_UPDATEUSUARIOPASS
+@ID INT,
+@PASS VARCHAR(150)
+AS
+BEGIN
+	UPDATE tb_usuario SET password_usuario = @PASS, fechaAct_usuario = GETDATE() WHERE id_usuario = @ID
+END
+GO
+-- DELETE
+CREATE OR ALTER PROC SP_DELETEUSUARIO
+@ID INT
+AS
+BEGIN
+	UPDATE tb_usuario SET estado_usuario = 'Inactivo' WHERE id_usuario = @ID
+END
+GO
+
 
 
 
@@ -500,9 +588,12 @@ GO
 -- EXEC usp_listadoEcommer
 
 SELECT * FROM tb_usuario
+SELECT * FROM tb_direntrega_usuario
 SELECT * FROM tb_tarjeta
 SELECT * FROM tb_pedido
 SELECT * FROM tb_compra
 SELECT * FROM tb_producto_pedido
 
 GO
+
+SELECT @@IDENTITY
