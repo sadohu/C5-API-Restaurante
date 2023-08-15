@@ -53,7 +53,7 @@ namespace C5_PJ_Restaurante_API.Repository
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                cmd.Parameters.AddWithValue("@USER", usuario.cod_usuario);
+                cmd.Parameters.AddWithValue("@USER", usuario.email_usuario);
                 cmd.Parameters.AddWithValue("@PASS", usuario.password_usuario);
                 cnx.Open();
                 var dr = cmd.ExecuteReader();
