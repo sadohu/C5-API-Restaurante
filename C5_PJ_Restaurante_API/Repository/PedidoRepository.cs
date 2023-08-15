@@ -66,7 +66,17 @@ namespace C5_PJ_Restaurante_API.Repository
                         }
                     }
 
-                    transaction.Commit();
+					
+					foreach (Cart cart in pedido.carts!)
+					{
+						SqlCommand cmd5 = new("usp_actualiza_stock", cnx, transaction)
+						{ CommandType = CommandType.StoredProcedure };
+						cmd5.Parameters.AddWithValue("@idproducto", cart.id_producto);
+						cmd5.Parameters.AddWithValue("@cant", cart.cantidad_producto);
+						cmd5.ExecuteNonQuery();
+					}
+
+					transaction.Commit();
                     response = "Registro exitoso";
                 }
                 catch (Exception ex)

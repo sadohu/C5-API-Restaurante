@@ -44,15 +44,15 @@ CREATE TABLE tb_usuario(
 id_usuario int IDENTITY(1,1) PRIMARY KEY,
 id_tipo_usuario int NOT NULL ,
 cod_usuario varchar(100) NULL,
-nom_usuario varchar(100) NOT NULL,
-ape_usuario varchar(100) NOT NULL,
+nom_usuario varchar(100) NOT NULL, --
+ape_usuario varchar(100) NOT NULL, --
 tel_usuario char(12) NULL,
-cel_usuario char(12) NOT NULL,
-id_distrito int NOT NULL ,
+cel_usuario VARCHAR(100) NULL,
+id_distrito int NULL ,
 dir_usuario varchar(100) NULL,
 dni_usuario char(8) NULL,
-email_usuario varchar(100) NOT NULL,
-password_usuario varchar(100) NOT NULL,
+email_usuario varchar(100) NOT NULL, ---
+password_usuario varchar(100) NOT NULL,  ---
 imagen_usuario VARCHAR(500) NULL,
 fechaReg_usuario datetime NOT NULL,
 fechaAct_usuario datetime NULL,
@@ -485,6 +485,13 @@ AS
 	INSERT INTO tb_pedido(ID_USUARIO_CLIENTE, ID_DIRENTREGA, tiempoentrega_pedido, fechareg_pedido, estado_pedido)
 	VALUES (@id_usuario_cliente, @id_direntrega, '00:45', GETDATE(), 'Pendiente')
 GO
+--INSERT VS
+CREATE OR ALTER PROC SP_INSERTPEDIDOVS
+@id_usuario_cliente INT
+AS
+	INSERT INTO tb_pedido(ID_USUARIO_CLIENTE, tiempoentrega_pedido, fechareg_pedido, estado_pedido)
+	VALUES (@id_usuario_cliente, '00:45', GETDATE(), 'Pendiente')
+GO
 -- UPDATE																																				TODO
 CREATE OR ALTER PROC SP_UPDATEPEDIDOESTADO
 @ESTADO VARCHAR(100)
@@ -596,11 +603,20 @@ GO
 CREATE OR ALTER PROC usp_listadoEcommer
 AS
 Select p.id_producto,p.nom_producto,p.des_producto,cp.des_categoria_producto,
-p.preciouni_producto,p.stock_producto
+p.preciouni_producto,p.stock_producto, p.imagen_producto
 from tb_producto p inner join tb_categoria_producto cp
 on p.id_categoria_producto=cp.id_categoria_producto
 GO
 -- EXEC usp_listadoEcommer
+
+CREATE OR ALTER PROCEDURE usp_actualiza_stock
+@idproducto int,
+@cant smallint
+AS
+BEGIN
+	update tb_producto set stock_producto -= @cant where id_producto=@idproducto
+END
+GO
 
 SELECT * FROM tb_usuario
 SELECT * FROM tb_direntrega_usuario
