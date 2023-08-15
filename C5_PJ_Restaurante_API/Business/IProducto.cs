@@ -8,5 +8,6 @@ namespace C5_PJ_Restaurante_API.Business
         string Agregar(tb_producto producto);
         string Actualizar(tb_producto producto);
         string Eliminar(int idproducto);
+        IEnumerable<tb_producto> GetProductoPortal();
     }
 }

@@ -34,7 +34,8 @@ namespace C5_PJ_Restaurante_API.Repository
                         nom_producto = dr.GetString(2),
                         des_producto = dr.GetString(3),
                         preciouni_producto = dr.GetDecimal(4),
-                        stock_producto = dr.GetInt32(5)
+                        stock_producto = dr.GetInt32(5),
+                        imagen_producto = dr.GetString(6)
                     });
                 }
                 cn.Close();
@@ -116,6 +117,33 @@ namespace C5_PJ_Restaurante_API.Repository
                 finally { connection.Close(); }
             }
             return mensaje;
+        }
+
+        public IEnumerable<tb_producto> GetProductoPortal()
+        {
+            List<tb_producto> portal = new List<tb_producto>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("usp_listadoEcommer", connection);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    portal.Add(new tb_producto()
+                    {
+                        id_producto = dr.GetInt32(0),
+                        nom_producto = dr.GetString(1),
+                        des_producto = dr.GetString(2),
+                        des_categoria_producto = dr.GetString(3),
+                        preciouni_producto = dr.GetDecimal(4),
+                        stock_producto = dr.GetInt32(5),
+                        imagen_producto = dr.GetString(6)
+                        
+                    });
+                }
+                connection.Close();
+            }
+            return portal;
         }
     }
 }

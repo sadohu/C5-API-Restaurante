@@ -10,5 +10,6 @@
         public int stock_producto { get; set; }
         public string? imagen_producto { get; set; }
         public string? estado_producto { get; set; }
+        public string? des_categoria_producto { get; set; }
     }
 }
