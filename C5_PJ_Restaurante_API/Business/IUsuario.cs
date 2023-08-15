@@ -10,5 +10,6 @@ namespace C5_PJ_Restaurante_API.Business
         string Update(tb_usuario usuario);
         string UpdatePass(tb_usuario usuario);
         string Delete(int id);
+        string Valid(tb_usuario usuario);
     }
 }

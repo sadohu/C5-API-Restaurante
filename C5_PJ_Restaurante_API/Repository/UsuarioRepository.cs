@@ -200,5 +200,39 @@ namespace C5_PJ_Restaurante_API.Repository
             }
             return response;
         }
+
+        public string Valid(tb_usuario usuario)
+        {
+            string response = "Valid";
+            using (SqlConnection cnx = new(connectionString))
+            {
+                cnx.Open();
+                SqlCommand cmd = new("SP_GETUSUARIOEMAIL", cnx)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@USER", usuario.email_usuario);
+                var dr = cmd.ExecuteReader();
+                while (!dr.Read())
+                {
+                    cnx.Close();
+                    return response = "Email registrado, por favor use uno dististo.";
+                }
+
+                SqlCommand cmd2 = new("SP_GETUSUARIOPHONE", cnx)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@USER", usuario.cel_usuario);
+                var dr2 = cmd.ExecuteReader();
+                while (!dr2.Read())
+                {
+                    cnx.Close();
+                    return response = "Celular registrado, por favor use uno dististo.";
+                }
+                cnx.Close();
+            }
+            return response;
+        }
     }
 }
