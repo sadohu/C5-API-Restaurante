@@ -34,7 +34,7 @@ namespace C5_PJ_Restaurante_API.Repository
                         nom_usuario = (string)dr["nom_usuario"],
                         ape_usuario = (string)dr["ape_usuario"],
                         cel_usuario = (string)dr["cel_usuario"],
-                        id_distrito = (Int32)dr["id_distrito"],
+                        //id_distrito = (Int32)dr["id_distrito"],
                         email_usuario = (string)dr["email_usuario"],
                         password_usuario = (string)dr["password_usuario"]
                     });
@@ -66,7 +66,7 @@ namespace C5_PJ_Restaurante_API.Repository
                         nom_usuario = (string)dr["nom_usuario"],
                         ape_usuario = (string)dr["ape_usuario"],
                         cel_usuario = (string)dr["cel_usuario"],
-                        id_distrito = (Int32)dr["id_distrito"],
+                        //id_distrito = (Int32)dr["id_distrito"],
                         email_usuario = (string)dr["email_usuario"],
                         password_usuario = (string)dr["password_usuario"]
                     };
