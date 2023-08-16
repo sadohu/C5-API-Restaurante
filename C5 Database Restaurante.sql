@@ -44,15 +44,15 @@ CREATE TABLE tb_usuario(
 id_usuario int IDENTITY(1,1) PRIMARY KEY,
 id_tipo_usuario int NOT NULL ,
 cod_usuario varchar(100) NULL,
-nom_usuario varchar(100) NOT NULL, --
-ape_usuario varchar(100) NOT NULL, --
+nom_usuario varchar(100) NOT NULL,
+ape_usuario varchar(100) NOT NULL,
 tel_usuario char(12) NULL,
 cel_usuario VARCHAR(100) NULL,
 id_distrito int NULL ,
 dir_usuario varchar(100) NULL,
 dni_usuario char(8) NULL,
-email_usuario varchar(100) NOT NULL, ---
-password_usuario varchar(100) NOT NULL,  ---
+email_usuario varchar(100) NOT NULL,
+password_usuario varchar(100) NOT NULL,
 imagen_usuario VARCHAR(500) NULL,
 fechaReg_usuario datetime NOT NULL,
 fechaAct_usuario datetime NULL,
@@ -186,9 +186,7 @@ FOREIGN KEY (id_usuario_cliente) REFERENCES tb_usuario (id_usuario)
 )
 go
 
-
-
-
+-- INSERTS ============================================================================================================
 -- Insertar datos en tb_tipo_usuario
 INSERT INTO tb_tipo_usuario (des_tipo_usuario)
 VALUES ('Admin'), ('Cliente'), ('Repartidor'), ('Colaborador'), ('Invitado');
@@ -208,17 +206,11 @@ VALUES ('Efectivo'), ('Tarjeta');
 
 -- Insertar datos en tb_categoria_producto
 INSERT INTO tb_categoria_producto (des_categoria_producto)
-VALUES ('Pollos y Carnes'), ('Bebidas'), ('Salsas y Aderezos'), ('Combos y Menús'), ('Acompañamientos');
+VALUES ('Pollos'), ('Parrillas'), ('Para Picar'), ('Gaseosas'), ('Bebidas Naturales'), ('Salsas y Aderezos'), ('Combos y Menús');
 
 -- Insertar datos en tb_usuario
 INSERT INTO tb_usuario (id_tipo_usuario, cod_usuario, nom_usuario, ape_usuario, tel_usuario, cel_usuario, id_distrito, dir_usuario, dni_usuario, email_usuario, password_usuario, imagen_usuario, fechaReg_usuario, fechaAct_usuario, estado_usuario)
 VALUES (1, 'ADMI001', 'Mark', 'Julca', '01-9999999', '999999999', 1, 'Admin', '99999999', 'admin@admin.com', 'Admin', NULL, GETDATE(), GETDATE(), 'Activo');
---,  
---	   (3, 'USER001', 'Juan', 'Perez', '01-1234567', '987654321', 1, 'Av. Los Pinos 123', '12345678', 'juan.perez@example.com', '12345678', NULL, GETDATE(), GETDATE(), 'Activo'),
---       (3, 'USER002', 'Maria', 'Lopez', '01-2345678', '987654322', 2, 'Calle Flores 456', '23456789', 'maria.lopez@example.com', '23456789', NULL, GETDATE(), GETDATE(), 'Activo'),
---       (3, 'USER003', 'Pedro', 'Gomez', '01-3456789', '987654323', 3, 'Jr. San Martin 789', '34567890', 'pedro.gomez@example.com', '34567890', NULL, GETDATE(), GETDATE(), 'Activo'),
---       (3, 'USER004', 'Ana', 'Ramirez', '01-4567890', '987654324', 4, 'Av. Los Alamos 101', '45678901', 'ana.ramirez@example.com', '45678901', NULL, GETDATE(), GETDATE(), 'Activo'),
---       (3, 'USER005', 'Carlos', 'Garcia', '01-5678901', '987654325', 5, 'Calle Los Pajaritos 789', '56789012', 'carlos.garcia@example.com', '56789012', NULL, GETDATE(), GETDATE(), 'Activo');
 
 INSERT INTO tb_usuario (id_tipo_usuario, cod_usuario, nom_usuario, ape_usuario, tel_usuario, cel_usuario, id_distrito, dir_usuario, dni_usuario, email_usuario, password_usuario, imagen_usuario, fechaReg_usuario, fechaAct_usuario, estado_usuario)
 VALUES
@@ -239,7 +231,6 @@ VALUES
     (2, 'CLI015', 'Carolina', 'Silva', '7654321', '987654335', 5, 'Calle Los Olivos 123', '34567890', 'carolina@example.com', 'clientsecure456', NULL, '2023-07-02', NULL, 'Activo'),
     (2, 'CLI016', 'José', 'Rojas', '9876543', '987654336', 1, 'Av. Las Flores 456', '45678901', 'jose@example.com', 'clientpwd789', NULL, '2023-07-02', NULL, 'Activo'),
     (2, 'CLI017', 'Fernanda', 'Chávez', '8765432', '987654337', 2, 'Jr. Los Pinos 789', '56789012', 'fernanda@example.com', 'clientsecure123', NULL, '2023-07-02', NULL, 'Activo');
-
 
 -- Insertar datos en tb_colaborador
 INSERT INTO tb_colaborador (id_tipo_colaborador, nom_colaborador, ape_colaborador, dni_colaborador, imagen_colaborador, fechaReg_colaborador, fechaAct_colaborador, estado_colaborador)
@@ -277,15 +268,22 @@ VALUES (2, 1, 1, '12:00:00', GETDATE(), GETDATE(), 'Pendiente'),
 INSERT INTO tb_producto (id_categoria_producto, nom_producto, des_producto, preciouni_producto, stock_producto, imagen_producto, estado_producto)
 VALUES
 	   (1, '1/4 de Pollo', '1/4 de pollo a la brasa + papas fritas + ensalada + limonada personal', 21.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689295869-413763--cuarto-oferton.jpg', 'Activo'),
-       (1, 'Pollo + Papas + Chaufa + Ensalada', 'Pollo a la brasa acompañado de abundantes papas fritas, chaufa de hot dog familiar y ensalada', 73.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1676984400-658712--mega-promo-online.jpg', 'Activo'),
+       (1, 'Pollo + Papas + Chaufa', 'Pollo a la brasa acompañado de abundantes papas fritas, chaufa de hot dog familiar y ensalada', 73.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1676984400-658712--mega-promo-online.jpg', 'Activo'),
        (1, 'Pollo a la Brasa', '1 Pollo a la brasa + abundantes papas fritas + ensalada de lechuga, tomate y pepino.', 60.90, 30, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1677213828-059195--mega-promo.jpg', 'Activo'),
        (1, '1/4 Anticuchero', '1/4 Pollo a la brasa + anticucho + abundantes papas fritas + ensalada de lechuga, tomate y pepino', 30.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689285227-709844--cuarto_anticuchero.jpg', 'Activo'),
        (1, '1/4 Carretillero', '1/4 Pollo a la brasa + mollejitas + abundantes papas fritas + ensalada de lechuga, tomate y pepino', 32.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689286372-328585--cuarto-carretillero_1.jpg', 'Activo'),
 	   (1, '1/4 Choricero', '1/4 Pollo a la brasa + chorizo + abundantes papas fritas + ensalada de lechuga, tomate y pepino', 30.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1689285262-817818--cuarto_choricero.jpg', 'Activo'),
-	   (1, 'Parrilla Para 2', '1/4 de pollo a la brasa, chorizo parrillero, hot dog, 2 palitos de anticucho, chuleta, crocantes papas fritas y ensalada mediana', 68.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686591138-333056--parrilla_personal_1.jpg', 'Activo'),
-	   (1, 'Parrilla Familiar', '1/4 de pollo, bife, chorizo parrillero, chuleta o pechuga, hot dog, 2 palitos de anticuchos acompañado de papas fritas y ensalada', 93.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686588754-599284--parrilla_familiar.jpg', 'Activo'),
-	   (1, 'Parrilla Leña & Carbon', '1/2 pollo a la brasa, 2 palitos de anticucho, chuleta, mollejitas, filete de pierna, lomo fino, churrasco, 2 chorizos, 2 hot dog, papas fritas, ensalada familiar y 1.5L. de limonada', 119.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686588631-24924--parrilla_le%C3%B1aycarbon.jpg', 'Activo');
+	   (2, 'Parrilla Para 2', '1/4 de pollo a la brasa, chorizo parrillero, hot dog, 2 palitos de anticucho, chuleta, crocantes papas fritas y ensalada mediana', 68.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686591138-333056--parrilla_personal_1.jpg', 'Activo'),
+	   (2, 'Parrilla Familiar', '1/4 de pollo, bife, chorizo parrillero, chuleta o pechuga, hot dog, 2 palitos de anticuchos acompañado de papas fritas y ensalada', 93.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686588754-599284--parrilla_familiar.jpg', 'Activo'),
+	   (2, 'Parrilla Leña & Carbon', '1/2 pollo a la brasa, 2 palitos de anticucho, chuleta, mollejitas, filete de pierna, lomo fino, churrasco, 2 chorizos, 2 hot dog, papas fritas, ensalada familiar y 1.5L. de limonada', 119.90, 20, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1686588631-24924--parrilla_le%C3%B1aycarbon.jpg', 'Activo'),
+	   (3, 'Alitas x8', '6 Alitas super crocantes + abundantes papas fritas. pídelas en bbq o picantes', 20.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1669934625-816226--alitas.jpg', 'Activo'),
+	   (3, 'Tequeños x8', 'Rellenos de pollo a la brasa, acompañado de guacamole de la casa', 9.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802041-806534--teque%C3%B1os.jpg', 'Activo'),
+	   (3, 'Salchinuggets', 'Hot dog con nuggets acompañados de crocantes papas fritas y ensalada personal', 19.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802041-806534--teque%C3%B1os.jpg', 'Activo'),
+	   (3, 'Papas Grandes', 'Porción Grande de Papas', 13.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802051-302171--porcion_extragrande_papas.jpg', 'Activo'),
+	   (4, 'Paps', 'Porcs', 13.90, 100, 'jpg', 'Activo');
 
+-- (4, 'Paps', 'Porcs', 13.90, 100, 'jpg', 'Activo')
+-- VALUES ('Pollos'), ('Parrillas'), ('Para Picar'), ('Gaseosas'), ('Bebidas Naturales'), ('Salsas y Aderezos'), ('Combos y Menús');
 -- Insertar datos en tb_producto_pedido
 INSERT INTO tb_producto_pedido (id_pedido, id_producto, cantidad_producto)
 VALUES (1, 1, 2),

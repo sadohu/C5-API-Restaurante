@@ -213,11 +213,18 @@ namespace C5_PJ_Restaurante_API.Repository
                 };
                 cmd.Parameters.AddWithValue("@USER", usuario.email_usuario);
                 var dr = cmd.ExecuteReader();
-                if (dr.Read())
+                while (dr.Read())
                 {
-                    dr.Close();
-                    cnx.Close();
-                    return response = "Email registrado, por favor use uno dististo.";
+                    tb_usuario temp = new()
+                    {
+                        id_usuario = dr.GetInt32(0)
+                    };
+                    if(usuario.id_usuario !=  temp.id_usuario)
+                    {
+                        dr.Close();
+                        cnx.Close();
+                        return response = "Email registrado, por favor use uno distinto.";
+                    }
                 }
                 dr.Close();
                 SqlCommand cmd2 = new("SP_GETUSUARIOPHONE", cnx)
@@ -226,11 +233,18 @@ namespace C5_PJ_Restaurante_API.Repository
                 };
                 cmd2.Parameters.AddWithValue("@USER", usuario.cel_usuario);
                 var dr2 = cmd2.ExecuteReader();
-                if (dr2.Read())
+                while (dr2.Read())
                 {
-                    dr2.Close();
-                    cnx.Close();
-                    return response = "Celular registrado, por favor use uno dististo.";
+                    tb_usuario temp = new()
+                    {
+                        id_usuario = dr2.GetInt32(0)
+                    };
+                    if (usuario.id_usuario != temp.id_usuario)
+                    {
+                        dr2.Close();
+                        cnx.Close();
+                        return response = "Celular registrado, por favor use uno distinto.";
+                    }
                 }
                 dr2.Close();
                 cnx.Close();
