@@ -206,7 +206,7 @@ VALUES ('Efectivo'), ('Tarjeta');
 
 -- Insertar datos en tb_categoria_producto
 INSERT INTO tb_categoria_producto (des_categoria_producto)
-VALUES ('Pollos'), ('Parrillas'), ('Para Picar'), ('Gaseosas'), ('Bebidas Naturales'), ('Salsas y Aderezos'), ('Combos y Menús');
+VALUES ('Pollos'), ('Parrillas'), ('Para Picar'), ('Gaseosas'), ('Combos y Menús');
 
 -- Insertar datos en tb_usuario
 INSERT INTO tb_usuario (id_tipo_usuario, cod_usuario, nom_usuario, ape_usuario, tel_usuario, cel_usuario, id_distrito, dir_usuario, dni_usuario, email_usuario, password_usuario, imagen_usuario, fechaReg_usuario, fechaAct_usuario, estado_usuario)
@@ -280,10 +280,19 @@ VALUES
 	   (3, 'Tequeños x8', 'Rellenos de pollo a la brasa, acompañado de guacamole de la casa', 9.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802041-806534--teque%C3%B1os.jpg', 'Activo'),
 	   (3, 'Salchinuggets', 'Hot dog con nuggets acompañados de crocantes papas fritas y ensalada personal', 19.90, 50, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802041-806534--teque%C3%B1os.jpg', 'Activo'),
 	   (3, 'Papas Grandes', 'Porción Grande de Papas', 13.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802051-302171--porcion_extragrande_papas.jpg', 'Activo'),
-	   (4, 'Paps', 'Porcs', 13.90, 100, 'jpg', 'Activo');
+	   (4, 'Inca Kola 1.5 L', 'Inca Kola 1.5 L', 13.50, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802520-060804--incakola_15L.jpg', 'Activo'),
+	   (4, 'Coca Cola 1.5 L', 'Coca Cola 1.5 L', 13.50, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802531-619541--cocacola_15L.jpg', 'Activo'),
+	   (4, 'Fanta 2.25 L', 'Fanta 2.25 L', 13.50, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802571-322815--fanta.jpg', 'Activo'),
+	   (4, 'Sprite 2.25 L', 'Sprite 2.25 L', 13.50, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802544-346965--sprite.jpg', 'Activo'),
+	   (4, 'Inca Kola 450 Ml', 'Inca Kola 450 Ml', 5.00, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802439-331974--incakola_personal.jpg', 'Activo'),
+	   (4, 'Coca Cola 450 Ml', 'Coca Cola 450 Ml', 5.00, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627802475-171395--cocacola_zero_personal.jpg', 'Activo'),
+	   (5, '1/4 Pollo + Gaseosa', 'Pollo a la brasa + 1/4 pierna + abundantes papas fritas + ensalada de lechuga, tomate y pepino + 01 gaseosa 1.5l. a elegir', 90.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627800309-068559--pollo_cuarto_gaseosa.jpg', 'Activo'),
+	   (5, '1 Pollo + Chaufa + Gaseosa', '1 Pollo a la brasa + crocantes papas fritas + chaufa familiar de hot dog + 01 gaseosa de 1.5l a elegir', 84.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627800730-829169--pollo_chaufa_gaseosa.jpg', 'Activo'),
+	   (5, '1 Pollo + Gaseosa', '1 Pollo a la brasa + abundantes papas fritas + ensalada lechuga, tomate y pepino + 01 gaseosa de 1.5l a elegir', 79.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627800547-983014--pollo_gaseosa.jpg', 'Activo'),
+	   (5, '1 ¼ Pollo + 4 Tequeños', '1 Pollo a la brasa + 1/4 parte pierna + abundantes papas fritas + ensalada de lechuga, tomate y pepino + 4 tequeños', 82.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1636326478-079104--teque%C3%B1os-cuarto.jpg', 'Activo'),
+	   (5, '1 Pollo a la brasa + 1/4', '1 Pollo a la brasa + 1/4 parte pierna + abundantes papas fritas + ensalada de lechuga, tomate y pepino', 80.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627800275-306006--pollo_cuarto.jpg', 'Activo'),
+	   (5, '1 Pollo a la brasa con chaufa', '1 Pollo a la brasa + abundantes papas fritas + chaufa de Hotdog.', 76.90, 100, 'https://d1v8f0fkg48ska.cloudfront.net/media/chaty_lenaycarbon/products/1627800359-897701--pollo_chaufa.jpg', 'Activo');
 
--- (4, 'Paps', 'Porcs', 13.90, 100, 'jpg', 'Activo')
--- VALUES ('Pollos'), ('Parrillas'), ('Para Picar'), ('Gaseosas'), ('Bebidas Naturales'), ('Salsas y Aderezos'), ('Combos y Menús');
 -- Insertar datos en tb_producto_pedido
 INSERT INTO tb_producto_pedido (id_pedido, id_producto, cantidad_producto)
 VALUES (1, 1, 2),
@@ -324,6 +333,23 @@ CREATE OR ALTER PROC SP_LISTARPRODUCTO
 AS
 BEGIN 
 	SELECT * FROM tb_producto WHERE estado_producto = 'ACTIVO'
+END
+GO
+CREATE OR ALTER PROC SP_LISTARPRODUCTOBYCATEGORIA
+@CAT INT
+AS
+BEGIN 
+	SELECT * FROM tb_producto WHERE id_categoria_producto = @CAT AND estado_producto = 'ACTIVO'
+END
+GO
+CREATE OR ALTER PROC SP_LISTARPRODUCTOBYNOMBRE
+@NOM INT
+AS
+BEGIN 
+	SELECT * FROM tb_producto P
+	INNER JOIN tb_categoria_producto C ON C.id_categoria_producto = P.id_categoria_producto
+	WHERE nom_producto LIKE '%'+ @NOM +'%' OR des_producto LIKE '%'+ @NOM +'%' OR C.des_categoria_producto LIKE '%'+ @NOM +'%'
+	AND estado_producto = 'ACTIVO'
 END
 GO
 -- INSERT
@@ -490,7 +516,7 @@ AS
 	INSERT INTO tb_pedido(ID_USUARIO_CLIENTE, tiempoentrega_pedido, fechareg_pedido, estado_pedido)
 	VALUES (@id_usuario_cliente, '00:45', GETDATE(), 'Pendiente')
 GO
--- UPDATE																																				TODO
+-- UPDATE
 CREATE OR ALTER PROC SP_UPDATEPEDIDOESTADO
 @ESTADO VARCHAR(100)
 AS
@@ -616,16 +642,16 @@ BEGIN
 END
 GO
 
-SELECT * FROM tb_usuario
-SELECT * FROM tb_direntrega_usuario
-SELECT * FROM tb_tarjeta
-SELECT * FROM tb_pedido
-SELECT * FROM tb_compra
-SELECT * FROM tb_producto_pedido
+--SELECT * FROM tb_usuario
+--SELECT * FROM tb_direntrega_usuario
+--SELECT * FROM tb_tarjeta
+--SELECT * FROM tb_pedido
+--SELECT * FROM tb_compra
+--SELECT * FROM tb_producto_pedido
 
-GO
+--GO
 
-SELECT @@IDENTITY
+--SELECT @@IDENTITY
 
-ALTER TABLE TB_USUARIO 
-ALTER COLUMN DNI_USUARIO VARCHAR(100) NULL
+--ALTER TABLE TB_USUARIO 
+--ALTER COLUMN DNI_USUARIO VARCHAR(100) NULL
