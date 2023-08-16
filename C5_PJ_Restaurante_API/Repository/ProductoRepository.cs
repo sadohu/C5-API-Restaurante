@@ -145,5 +145,65 @@ namespace C5_PJ_Restaurante_API.Repository
             }
             return portal;
         }
+
+        public IEnumerable<tb_producto> GetProductoByCategoria(int id)
+        {
+            List<tb_producto> lista = new();
+            using (SqlConnection cn = new(connectionString))
+            {
+                SqlCommand cmd = new("SP_LISTARPRODUCTOBYCATEGORIA", cn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@CAT", id);
+                cn.Open();
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    lista.Add(new tb_producto()
+                    {
+                        id_producto = dr.GetInt32(0),
+                        id_categoria_producto = dr.GetInt32(1),
+                        nom_producto = dr.GetString(2),
+                        des_producto = dr.GetString(3),
+                        preciouni_producto = dr.GetDecimal(4),
+                        stock_producto = dr.GetInt32(5),
+                        imagen_producto = dr.GetString(6)
+                    });
+                }
+                cn.Close();
+            }
+            return lista;
+        }
+
+        public IEnumerable<tb_producto> GetProductoByNombre(string nombre)
+        {
+            List<tb_producto> lista = new();
+            using (SqlConnection cn = new(connectionString))
+            {
+                SqlCommand cmd = new("SP_LISTARPRODUCTOBYNOMBRE", cn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@NOM", nombre);
+                cn.Open();
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    lista.Add(new tb_producto()
+                    {
+                        id_producto = dr.GetInt32(0),
+                        id_categoria_producto = dr.GetInt32(1),
+                        nom_producto = dr.GetString(2),
+                        des_producto = dr.GetString(3),
+                        preciouni_producto = dr.GetDecimal(4),
+                        stock_producto = dr.GetInt32(5),
+                        imagen_producto = dr.GetString(6)
+                    });
+                }
+                cn.Close();
+            }
+            return lista;
+        }
     }
 }
