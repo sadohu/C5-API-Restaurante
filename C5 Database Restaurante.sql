@@ -494,7 +494,7 @@ AS
 	WHERE estado_pedido = 'Pendiente'
 	ORDER BY id_pedido ASC
 GO
-
+--LAST PEDIDO
 CREATE OR ALTER PROC SP_GETLASTPEDIDO
 @id_usuario_cliente INT
 AS
@@ -502,6 +502,29 @@ AS
 	WHERE id_usuario_cliente = @id_usuario_cliente 
 	ORDER BY ID_PEDIDO DESC
 GO
+--PEDIDO BY USUARIO
+CREATE OR ALTER PROC SP_GETPEDIDOBYUSER
+@ID INT
+AS
+	SELECT P.id_pedido, P.fechareg_pedido, P.estado_pedido, D.nombre_direntrega, D.des_direntrega, MP.des_medio_pago 
+	FROM tb_pedido P
+	INNER JOIN tb_usuario U ON P.id_usuario_cliente = U.id_usuario
+	INNER JOIN tb_direntrega_usuario D ON D.id_direntrega = P.id_direntrega
+	INNER JOIN tb_compra C ON P.id_pedido = C.id_pedido
+	INNER JOIN tb_mediopago MP ON MP.id_medio_pago = C.id_medio_pago
+	WHERE U.id_usuario = @ID
+GO
+--CART BY PEDIDO
+CREATE OR ALTER PROC SP_GETPEDIDOCART
+@ID INT
+AS
+	SELECT P.*, I.cantidad_producto
+	FROM tb_producto P
+	INNER JOIN tb_producto_pedido I ON P.id_producto = I.id_producto
+	INNER JOIN tb_pedido PE ON PE.id_pedido = I.id_pedido
+	WHERE PE.id_pedido = @ID
+GO
+
 --INSERT
 CREATE OR ALTER PROC SP_INSERTPEDIDO
 @id_usuario_cliente INT, @id_direntrega INT
@@ -655,3 +678,5 @@ GO
 
 --ALTER TABLE TB_USUARIO 
 --ALTER COLUMN DNI_USUARIO VARCHAR(100) NULL
+
+SELECT * FROM tb_pedido WHERE id_usuario_cliente = 2
