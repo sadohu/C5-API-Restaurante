@@ -518,7 +518,7 @@ GO
 CREATE OR ALTER PROC SP_GETPEDIDOCART
 @ID INT
 AS
-	SELECT P.*, I.cantidad_producto
+	SELECT I.*
 	FROM tb_producto P
 	INNER JOIN tb_producto_pedido I ON P.id_producto = I.id_producto
 	INNER JOIN tb_pedido PE ON PE.id_pedido = I.id_pedido

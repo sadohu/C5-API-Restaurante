@@ -6,5 +6,6 @@ namespace C5_PJ_Restaurante_API.Business
     {
         string SavePedido(Pedido pedido);
         string Update(tb_pedido pedido);
+        List<Pedido> GetByUser(int id);
     }
 }
