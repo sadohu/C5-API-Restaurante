@@ -23,11 +23,14 @@ namespace C5_PJ_Restaurante_API.Repository
                 var transaction = cnx.BeginTransaction();
                 try
                 {
+                    string cmdProcedure = pedido.id_dirEntrega == 0 ? "SP_INSERTPEDIDOVS" : "SP_INSERTPEDIDO";
                     // Insertar pedido
-                    SqlCommand cmd = new("SP_INSERTPEDIDO", cnx, transaction)
+                    SqlCommand cmd = new(cmdProcedure, cnx, transaction)
                     { CommandType = CommandType.StoredProcedure };
                     cmd.Parameters.AddWithValue("@ID_USUARIO_CLIENTE", pedido.id_usuario_cliente);
-                    cmd.Parameters.AddWithValue("@ID_DIRENTREGA", pedido.id_dirEntrega);
+                    if(pedido.id_dirEntrega > 0)
+                        cmd.Parameters.AddWithValue("@ID_DIRENTREGA", pedido.id_dirEntrega);
+
                     cmd.ExecuteNonQuery();
 
                     // Obtener el último ID de pedido insertado
