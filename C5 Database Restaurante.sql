@@ -592,6 +592,7 @@ AS
 	INSERT INTO tb_pedido(ID_USUARIO_CLIENTE, ID_DIRENTREGA, tiempoentrega_pedido, fechareg_pedido, estado_pedido)
 	VALUES (@id_usuario_cliente, @id_direntrega, '00:45', GETDATE(), 'Pendiente')
 GO
+
 --INSERT VS
 DROP PROC IF EXISTS  SP_INSERTPEDIDOVS
 GO

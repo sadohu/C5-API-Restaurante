@@ -23,21 +23,20 @@ namespace C5_PJ_Restaurante_API.Controllers
         }
 
         [HttpPost("saveTarjeta")]
-        public async Task<ActionResult<string>> Agregar(tb_tarjeta direccion)
+        public async Task<ActionResult<string>> Agregar(tb_tarjeta tarjeta)
         {
-            return Ok(await Task.Run(() => iTarjeta.Add(direccion)));
+            return Ok(await Task.Run(() => iTarjeta.Add(tarjeta)));
         }
 
         [HttpPut("updateTarjeta")]
-        public async Task<ActionResult<string>> actualizarProducto(tb_tarjeta direccion)
+        public async Task<ActionResult<string>> actualizarProducto(tb_tarjeta tarjeta)
         {
-            return Ok(await Task.Run(() => iTarjeta.Update(direccion)));
+            return Ok(await Task.Run(() => iTarjeta.Update(tarjeta)));
         }
 
         [HttpPut("deleteTarjeta")]
-        public async Task<ActionResult<string>> eliminarProducto(int id_direccion)
-        {
-            return Ok(await Task.Run(() => iTarjeta.Delete(id_direccion)));
+        public async Task<ActionResult<string>> eliminarProducto(tb_tarjeta tarjeta) { 
+            return Ok(await Task.Run(() => iTarjeta.Delete(tarjeta)));
         }
     }
 }
