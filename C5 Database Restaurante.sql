@@ -398,16 +398,16 @@ END
 GO
 -- INSERT
 CREATE OR ALTER PROC SP_INSERTDIRECCION
-@ID_USUARIO INT, @ID_DISTRITO INT, @NOMBRE VARCHAR(100), @DESCRIPCION VARCHAR(100), @DETALLE VARCHAR(100)
+@ID_USUARIO INT, @NOMBRE VARCHAR(100), @DESCRIPCION VARCHAR(100), @DETALLE VARCHAR(100)
 AS
-	INSERT INTO tb_direntrega_usuario (id_usuario, id_distrito, nombre_direntrega, des_direntrega, detalle_direntrega, fechareg_direntrega, estado_direntrega)
-	VALUES (@ID_USUARIO, @ID_DISTRITO, @NOMBRE, @DESCRIPCION, @DETALLE, GETDATE(), 'Activo')
+	INSERT INTO tb_direntrega_usuario (id_usuario, nombre_direntrega, des_direntrega, detalle_direntrega, fechareg_direntrega, estado_direntrega)
+	VALUES (@ID_USUARIO, @NOMBRE, @DESCRIPCION, @DETALLE, GETDATE(), 'Activo')
 GO
 -- UPDATE
 CREATE OR ALTER PROC SP_UPDATEDIRECCION
-@ID_DIRECCION INT, @ID_DISTRITO INT, @NOMBRE VARCHAR(100), @DESCRIPCION VARCHAR(100), @DETALLE VARCHAR(100)
+@ID_DIRECCION INT, @NOMBRE VARCHAR(100), @DESCRIPCION VARCHAR(100), @DETALLE VARCHAR(100)
 AS
-	UPDATE tb_direntrega_usuario SET id_distrito = @ID_DISTRITO, nombre_direntrega = @NOMBRE,
+	UPDATE tb_direntrega_usuario SET nombre_direntrega = @NOMBRE,
 	des_direntrega = @DESCRIPCION, detalle_direntrega = @DETALLE
 	WHERE id_direntrega = @ID_DIRECCION
 GO
@@ -513,6 +513,7 @@ AS
 	INNER JOIN tb_compra C ON P.id_pedido = C.id_pedido
 	INNER JOIN tb_mediopago MP ON MP.id_medio_pago = C.id_medio_pago
 	WHERE U.id_usuario = @ID
+	ORDER BY P.id_pedido DESC
 GO
 --CART BY PEDIDO
 CREATE OR ALTER PROC SP_GETPEDIDOCART
