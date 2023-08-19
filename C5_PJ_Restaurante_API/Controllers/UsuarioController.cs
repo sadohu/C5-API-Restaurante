@@ -51,7 +51,13 @@ namespace C5_PJ_Restaurante_API.Controllers
             return Ok(await Task.Run(() => iUsuario.Delete(id_usuario)));
         }
 
-        [HttpPost("validUsuario")]
+		[HttpDelete("deleteFisicoUsuario")]
+		public async Task<ActionResult<string>> EliminarFisico(int id_usuario)
+		{
+			return Ok(await Task.Run(() => iUsuario.Delete(id_usuario)));
+		}
+
+		[HttpPost("validUsuario")]
         public async Task<ActionResult<string>> Validar(tb_usuario usuario)
         {
             return Ok(await Task.Run(() => iUsuario.Valid(usuario)));
