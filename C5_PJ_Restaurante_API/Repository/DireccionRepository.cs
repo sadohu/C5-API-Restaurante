@@ -32,7 +32,7 @@ namespace C5_PJ_Restaurante_API.Repository
                     {
                         id_usuario = dr.GetInt32(0),
                         id_direntrega = dr.GetInt32(1),
-                        id_distrito = dr.GetInt32(2),
+                        //id_distrito = dr.GetInt32(2),
                         nombre_direntrega = dr.GetString(3),
                         des_direntrega = dr.GetString(4),
                         detalle_direntrega = dr.GetString(5)
@@ -55,10 +55,10 @@ namespace C5_PJ_Restaurante_API.Repository
                         CommandType = CommandType.StoredProcedure
                     };
                     cmd.Parameters.AddWithValue("@ID_USUARIO", direccion.id_usuario);
-                    cmd.Parameters.AddWithValue("@ID_DISTRITO", direccion.id_distrito);
+                    //cmd.Parameters.AddWithValue("@ID_DISTRITO", direccion.id_distrito);
                     cmd.Parameters.AddWithValue("@NOMBRE", direccion.nombre_direntrega);
                     cmd.Parameters.AddWithValue("@DESCRIPCION", direccion.des_direntrega);
-                    cmd.Parameters.AddWithValue("@DETALLE", direccion.des_direntrega);
+                    cmd.Parameters.AddWithValue("@DETALLE", direccion.detalle_direntrega);
                     cn.Open();
                     cmd.ExecuteNonQuery();
                     response = "Se registró la dirección exitosamente.";
@@ -88,10 +88,10 @@ namespace C5_PJ_Restaurante_API.Repository
                         CommandType = CommandType.StoredProcedure
                     };
                     cmd.Parameters.AddWithValue("@ID_DIRECCION", direccion.id_direntrega);
-                    cmd.Parameters.AddWithValue("@ID_DISTRITO", direccion.id_distrito);
+                    //cmd.Parameters.AddWithValue("@ID_DISTRITO", direccion.id_distrito);
                     cmd.Parameters.AddWithValue("@NOMBRE", direccion.nombre_direntrega);
                     cmd.Parameters.AddWithValue("@DESCRIPCION", direccion.des_direntrega);
-                    cmd.Parameters.AddWithValue("@DETALLE", direccion.des_direntrega);
+                    cmd.Parameters.AddWithValue("@DETALLE", direccion.detalle_direntrega);
                     cn.Open();
                     cmd.ExecuteNonQuery();
                     response = "Se actualizó la dirección exitosamente.";

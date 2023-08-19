@@ -51,5 +51,17 @@ namespace C5_PJ_Restaurante_API.Controllers
         {
             return Ok(await Task.Run(() => iProducto.GetProductoPortal()));
         }
+
+        [HttpGet("getProductosbycategoria")]
+        public async Task<ActionResult<IEnumerable<tb_producto>>> getProductoByCategoria(int id_categoria_producto)
+        {
+            return Ok(await Task.Run(() => iProducto.GetProductoByCategoria(id_categoria_producto)));
+        }
+
+        [HttpGet("getProductosbynombre")]
+        public async Task<ActionResult<IEnumerable<tb_producto>>> getProductoByNombre(string nombre)
+        {
+            return Ok(await Task.Run(() => iProducto.GetProductoByNombre(nombre)));
+        }
     }
 }

@@ -23,11 +23,14 @@ namespace C5_PJ_Restaurante_API.Repository
                 var transaction = cnx.BeginTransaction();
                 try
                 {
+                    string cmdProcedure = pedido.id_dirEntrega == 0 ? "SP_INSERTPEDIDOVS" : "SP_INSERTPEDIDO";
                     // Insertar pedido
-                    SqlCommand cmd = new("SP_INSERTPEDIDO", cnx, transaction)
+                    SqlCommand cmd = new(cmdProcedure, cnx, transaction)
                     { CommandType = CommandType.StoredProcedure };
                     cmd.Parameters.AddWithValue("@ID_USUARIO_CLIENTE", pedido.id_usuario_cliente);
-                    cmd.Parameters.AddWithValue("@ID_DIRENTREGA", pedido.id_dirEntrega);
+                    if(pedido.id_dirEntrega > 0)
+                        cmd.Parameters.AddWithValue("@ID_DIRENTREGA", pedido.id_dirEntrega);
+
                     cmd.ExecuteNonQuery();
 
                     // Obtener el último ID de pedido insertado
@@ -120,6 +123,57 @@ namespace C5_PJ_Restaurante_API.Repository
                 }
             }
             return response;
+        }
+
+        public List<Pedido> GetByUser(int id)
+        {
+            List<Pedido> list = new();
+            using(SqlConnection cnx = new(connectionString))
+            {
+                SqlCommand cmd = new("SP_GETPEDIDOBYUSER", cnx)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue ("@ID", id);
+                cnx.Open();
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    list.Add(new()
+                    {
+                        id_pedido = dr.GetInt32(0),
+                        fechaAct_pedido = dr.GetDateTime(1).ToString(),
+                        estado_pedido = dr.GetString(2),
+                        nombre_direntrega = dr.GetString(3),
+                        des_direntrega = dr.GetString(4),
+                        des_medio_pago = dr.GetString(5),
+                        monto_compra = dr.GetDecimal(6),
+                    });
+                }
+                dr.Close();
+
+                foreach(var item in list)
+                {
+                    SqlCommand cmd2 = new("SP_GETPEDIDOCART", cnx)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd2.Parameters.AddWithValue("@ID", item.id_pedido);
+                    var dr2 = cmd2.ExecuteReader();
+                    item.carts = new List<Cart>();
+                    while (dr2.Read())
+                    {
+                        item.carts.Add(new()
+                        {
+                            id_producto = (Int32)dr2["id_producto"],
+                            cantidad_producto = (Int32)dr2["cantidad_producto"]
+                        });
+                    }
+                    dr2.Close();
+                }
+                cnx.Close();
+            }
+            return list;
         }
     }
 }

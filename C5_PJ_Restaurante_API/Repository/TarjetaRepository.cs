@@ -109,7 +109,7 @@ namespace C5_PJ_Restaurante_API.Repository
             return response;
         }
 
-        public string Delete(int id)
+        public string Delete(tb_tarjeta tarjeta)
         {
             string response = "";
             using (SqlConnection cn = new(connectionString))
@@ -120,7 +120,7 @@ namespace C5_PJ_Restaurante_API.Repository
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    cmd.Parameters.AddWithValue("@ID_TARJETA", id);
+                    cmd.Parameters.AddWithValue("@ID_TARJETA", tarjeta.id_tarjeta);
                     cn.Open();
                     cmd.ExecuteNonQuery();
                     response = "Se eliminó la tarjeta exitosamente.";

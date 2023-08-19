@@ -7,6 +7,6 @@ namespace C5_PJ_Restaurante_API.Business
         IEnumerable<tb_tarjeta> Get(int id);
         string Add(tb_tarjeta tarjeta);
         string Update(tb_tarjeta tarjeta);
-        string Delete(int id);
+        string Delete(tb_tarjeta tarjeta);
     }
 }
