@@ -80,18 +80,22 @@ namespace C5_PJ_Restaurante_API.Repository
                     cmd.Parameters.AddWithValue("@PRODUCTO", favorito.id_producto);
                     cnx.Open();
                     var dr = cmd.ExecuteReader();
-                    while (!dr.Read())
+                    while (dr.Read())
                     {
-                        SqlCommand cmd2 = new SqlCommand("SP_INSERTFAVORITO", cnx)
-                        {
-                            CommandType = CommandType.StoredProcedure
-                        };
-                        cmd2.Parameters.AddWithValue("@USUARIO", favorito.id_usuario);
-                        cmd2.Parameters.AddWithValue("@PRODUCTO", favorito.id_producto);
-                        cmd2.ExecuteNonQuery();
-                        response = $"Se registró su favorito exitosamente";
+                        return response;
                     }
                     dr.Close();
+                    cnx.Close();
+
+                    SqlCommand cmd2 = new SqlCommand("SP_INSERTFAVORITO", cnx)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd2.Parameters.AddWithValue("@USUARIO", favorito.id_usuario);
+                    cmd2.Parameters.AddWithValue("@PRODUCTO", favorito.id_producto);
+                    cnx.Open();
+                    cmd2.ExecuteNonQuery();
+                    response = $"Se registró su favorito exitosamente";
                 }
                 catch (SqlException ex)
                 {
