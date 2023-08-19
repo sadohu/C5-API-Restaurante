@@ -5,29 +5,37 @@ using System.Data;
 
 namespace C5_PJ_Restaurante_API.Repository
 {
-    public class CategoriaRepository : ICategoria
+    public class DireccionRepository : IDireccion
     {
         private string connectionString;
 
-        public CategoriaRepository()
+        public DireccionRepository()
         {
             connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("connection");
         }
 
-        public IEnumerable<tb_categoria_producto> GetCategoriaProductos()
+        public IEnumerable<tb_direntrega_usuario> Get(int id)
         {
-            List<tb_categoria_producto> lista = new();
+            List<tb_direntrega_usuario> lista = new();
             using (SqlConnection cn = new(connectionString))
             {
+                SqlCommand cmd = new("SP_GETDIRECCION", cn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@ID_USUARIO", id);
                 cn.Open();
-                SqlCommand cmd = new("SP_GETCATEGORIA", cn);
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    lista.Add(new tb_categoria_producto()
+                    lista.Add(new tb_direntrega_usuario()
                     {
-                        id_categoria_producto = dr.GetInt32(0),
-                        des_categoria_producto = dr.GetString(1)
+                        id_usuario = dr.GetInt32(0),
+                        id_direntrega = dr.GetInt32(1),
+                        //id_distrito = dr.GetInt32(2),
+                        nombre_direntrega = dr.GetString(3),
+                        des_direntrega = dr.GetString(4),
+                        detalle_direntrega = dr.GetString(5)
                     });
                 }
                 cn.Close();
@@ -35,51 +43,58 @@ namespace C5_PJ_Restaurante_API.Repository
             return lista;
         }
 
-        public string Add(tb_categoria_producto categoria)
+        public string Add(tb_direntrega_usuario direccion)
         {
             string response = "";
             using (SqlConnection cn = new(connectionString))
             {
                 try
                 {
-                    SqlCommand cmd = new("SP_INSERTCATEGORIA", cn)
+                    SqlCommand cmd = new("SP_INSERTDIRECCION", cn)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    cmd.Parameters.AddWithValue("@DESCRIPCION", categoria.des_categoria_producto);
+                    cmd.Parameters.AddWithValue("@ID_USUARIO", direccion.id_usuario);
+                    //cmd.Parameters.AddWithValue("@ID_DISTRITO", direccion.id_distrito);
+                    cmd.Parameters.AddWithValue("@NOMBRE", direccion.nombre_direntrega);
+                    cmd.Parameters.AddWithValue("@DESCRIPCION", direccion.des_direntrega);
+                    cmd.Parameters.AddWithValue("@DETALLE", direccion.detalle_direntrega);
                     cn.Open();
                     cmd.ExecuteNonQuery();
-                    response = "Se registró la categoría exitosamente.";
+                    response = "Se registró la dirección exitosamente.";
                 }
                 catch (Exception ex)
                 {
                     response = ex.Message;
                     cn.Close();
                 }
-                finally
-                {
-                    cn.Close();
+                finally 
+                { 
+                    cn.Close(); 
                 }
             }
             return response;
         }
 
-        public string Update(tb_categoria_producto categoria)
+        public string Update(tb_direntrega_usuario direccion)
         {
             string response = "";
             using (SqlConnection cn = new(connectionString))
             {
                 try
                 {
-                    SqlCommand cmd = new("SP_UPDATECATEGORIA", cn)
+                    SqlCommand cmd = new("SP_UPDATEDIRECCION", cn)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    cmd.Parameters.AddWithValue("@ID", categoria.id_categoria_producto);
-                    cmd.Parameters.AddWithValue("@DESCRIPCION", categoria.des_categoria_producto);
+                    cmd.Parameters.AddWithValue("@ID_DIRECCION", direccion.id_direntrega);
+                    //cmd.Parameters.AddWithValue("@ID_DISTRITO", direccion.id_distrito);
+                    cmd.Parameters.AddWithValue("@NOMBRE", direccion.nombre_direntrega);
+                    cmd.Parameters.AddWithValue("@DESCRIPCION", direccion.des_direntrega);
+                    cmd.Parameters.AddWithValue("@DETALLE", direccion.detalle_direntrega);
                     cn.Open();
                     cmd.ExecuteNonQuery();
-                    response = "Se actualizó la categoría exitosamente.";
+                    response = "Se actualizó la dirección exitosamente.";
                 }
                 catch (Exception ex)
                 {
@@ -101,14 +116,14 @@ namespace C5_PJ_Restaurante_API.Repository
             {
                 try
                 {
-                    SqlCommand cmd = new("SP_DELETECATEGORIA", cn)
+                    SqlCommand cmd = new("SP_DELETEDIRECCION", cn)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    cmd.Parameters.AddWithValue("@ID", id);
+                    cmd.Parameters.AddWithValue("@ID_DIRECCION", id);
                     cn.Open();
                     cmd.ExecuteNonQuery();
-                    response = "Se eliminó la categoría exitosamente.";
+                    response = "Se eliminó la dirección exitosamente.";
                 }
                 catch (Exception ex)
                 {

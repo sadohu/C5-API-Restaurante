@@ -13,7 +13,7 @@ namespace C5_PJ_Restaurante_API.Controllers
 
         public ProductoController()
         {
-            this.iProducto = new ProductoRepository();
+            iProducto = new ProductoRepository();
         }
 
         [HttpGet("getProductos")]
@@ -44,6 +44,24 @@ namespace C5_PJ_Restaurante_API.Controllers
         public async Task<ActionResult<string>> eliminarProducto(int idproducto)
         {
             return Ok(await Task.Run(() => iProducto.Eliminar(idproducto)));
+        }
+
+        [HttpGet("getProductosPortal")]
+        public async Task<ActionResult<IEnumerable<tb_producto>>> getProductoPortal()
+        {
+            return Ok(await Task.Run(() => iProducto.GetProductoPortal()));
+        }
+
+        [HttpGet("getProductosbycategoria")]
+        public async Task<ActionResult<IEnumerable<tb_producto>>> getProductoByCategoria(int id_categoria_producto)
+        {
+            return Ok(await Task.Run(() => iProducto.GetProductoByCategoria(id_categoria_producto)));
+        }
+
+        [HttpGet("getProductosbynombre")]
+        public async Task<ActionResult<IEnumerable<tb_producto>>> getProductoByNombre(string nombre)
+        {
+            return Ok(await Task.Run(() => iProducto.GetProductoByNombre(nombre)));
         }
     }
 }
