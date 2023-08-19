@@ -67,20 +67,31 @@ namespace C5_PJ_Restaurante_API.Repository
 
         public string Add(tb_favorito favorito)
         {
-            string response = "";
+            string response = "El producto ya se encuentra como favorito";
             using (SqlConnection cnx = new(connectionString))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("SP_INSERTFAVORITO", cnx)
+                    SqlCommand cmd = new("SP_GETFAVORITOVALID", cnx)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
                     cmd.Parameters.AddWithValue("@USUARIO", favorito.id_usuario);
                     cmd.Parameters.AddWithValue("@PRODUCTO", favorito.id_producto);
                     cnx.Open();
-                    cmd.ExecuteNonQuery();
-                    response = $"Se registró su favorito exitosamente";
+                    var dr = cmd.ExecuteReader();
+                    while (!dr.Read())
+                    {
+                        SqlCommand cmd2 = new SqlCommand("SP_INSERTFAVORITO", cnx)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
+                        cmd2.Parameters.AddWithValue("@USUARIO", favorito.id_usuario);
+                        cmd2.Parameters.AddWithValue("@PRODUCTO", favorito.id_producto);
+                        cmd2.ExecuteNonQuery();
+                        response = $"Se registró su favorito exitosamente";
+                    }
+                    dr.Close();
                 }
                 catch (SqlException ex)
                 {
