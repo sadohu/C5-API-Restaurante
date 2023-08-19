@@ -676,11 +676,9 @@ CREATE OR ALTER PROC SP_LOGINUSUARIO
 @USER VARCHAR(100), @PASS VARCHAR(100)
 AS
 BEGIN 
-	SELECT * FROM tb_usuario WHERE email_usuario = @USER OR cel_usuario = @USER AND password_usuario = @PASS AND estado_usuario = 'ACTIVO'
+	SELECT * FROM tb_usuario WHERE (email_usuario = @USER OR cel_usuario = @USER) AND password_usuario = @PASS AND estado_usuario = 'ACTIVO'
 END
 GO
-
--- IF EXISTS
 DROP PROC IF EXISTS  SP_GETUSUARIOEMAIL
 GO
 CREATE OR ALTER PROC SP_GETUSUARIOEMAIL
