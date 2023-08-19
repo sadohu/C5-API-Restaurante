@@ -146,7 +146,8 @@ namespace C5_PJ_Restaurante_API.Repository
                         estado_pedido = dr.GetString(2),
                         nombre_direntrega = dr.GetString(3),
                         des_direntrega = dr.GetString(4),
-                        des_medio_pago = dr.GetString(5)
+                        des_medio_pago = dr.GetString(5),
+                        monto_compra = dr.GetDecimal(6),
                     });
                 }
                 dr.Close();
